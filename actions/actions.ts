@@ -3,15 +3,18 @@
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 
-export async function getSquads(email: string) {
+export const getUserEmail = async () => {
   const supabase = createClient();
-  const { data } = await supabase
-    .from('squads')
-    .select('*')
-    .eq('email', email);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  return data || [];
-}
+  if (!user) {
+    return null;
+  }
+
+  return user.email;
+};
 
 export async function deleteSquad(formData : FormData) {
   try {
@@ -47,6 +50,29 @@ export async function createSquad(formData: FormData) {
     console.error('Error creating squad:', error);
   } else {
     // Revalidate the path after creating a squad
+    revalidatePath('/myteams');
+  }
+}
+
+// update squad
+export async function updateSquad(formData: FormData) {
+  const supabase = createClient();
+  const squadName = formData.get('squadName') as string;
+  const playerIDs = formData.getAll('playerIDs') as string[];
+  const email = formData.get('email') as string;
+  const squadID = formData.get('squadID') as string;
+
+  const updatedSquad = {
+    squadName,
+    playersIDS: playerIDs.map((id) => ({ playerID: Number(id) })), // Convert playerID to number
+    email,
+  };
+
+  const { error } = await supabase.from('squads').update(updatedSquad).eq('squadID', squadID);
+  if (error) {
+    console.error('Error updating squad:', error);
+  } else {
+    // Revalidate the path after updating a squad
     revalidatePath('/myteams');
   }
 }
