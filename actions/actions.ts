@@ -38,12 +38,15 @@ export async function createSquad(formData: FormData) {
 
   const newSquad = {
     squadName,
-    playersIDS: playerIDs.map((id) => ({ playerID: id })),
+    playersIDS: playerIDs.map((id) => ({ playerID: Number(id) })), // Convert playerID to number
     email,
   };
 
-  await supabase.from('squads').insert(newSquad);
-
-  // Revalidate the path after creating a squad
-  revalidatePath('/myteams');
+  const { error } = await supabase.from('squads').insert(newSquad);
+  if (error) {
+    console.error('Error creating squad:', error);
+  } else {
+    // Revalidate the path after creating a squad
+    revalidatePath('/myteams');
+  }
 }

@@ -5,7 +5,6 @@ import {
   fetchStatsForMyTeamsPlayers,
   fetchMyTeamPlayers,
   getFinishedMatches,
-  deleteSquadById,
   getSquadById,
 } from "@/utils/supabase/functions";
 import Link from "next/link";
@@ -21,10 +20,11 @@ export const revalidate = 0;
 function getPlayerStatsMap(stats) {
   const playerStatsMap = new Map();
   stats.forEach((stat) => {
-    if (!playerStatsMap.has(stat.playerID)) {
-      playerStatsMap.set(stat.playerID, []);
+    const playerID = Number(stat.playerID); // Ensure playerID is a number
+    if (!playerStatsMap.has(playerID)) {
+      playerStatsMap.set(playerID, []);
     }
-    playerStatsMap.get(stat.playerID)?.push(stat);
+    playerStatsMap.get(playerID)?.push(stat);
   });
   return playerStatsMap;
 }
@@ -87,10 +87,10 @@ function formatAndSortPlayerData(players, stats, matches, squad) {
       ? squad.playersIDS
           .map((playerID) =>
             playersWithStatsAndPoints.find(
-              (p) => p.playerID === playerID.playerID
+              (p) => p.playerID === Number(playerID.playerID) // Ensure playerID is a number
             )
           )
-          .filter((p) => p !== null)
+          .filter((p) => p !== undefined)
       : [],
   };
 
@@ -135,17 +135,13 @@ export default async function MyTeam({
   const squadID = params.squadID;
   const mysquad = await getSquadById(squadID);
 
-   // Check if the logged-in user is the owner of the squad
-   if (mysquad.email !== user.email) {
-    // Unauthorized access, log out the user
-    await supabase.auth.signOut(); // Log out the user
-
-    // Redirect to the login page with a message
-    
+  // Check if the logged-in user is the owner of the squad
+  if (mysquad.email !== user.email) {
+    await supabase.auth.signOut();
     return redirect("/login?message=unauthorized-access");
   }
 
-  const playerIds = mysquad.playersIDS.map((p) => p.playerID);
+  const playerIds = mysquad.playersIDS.map((p) => Number(p.playerID)); // Ensure playerID is a number
 
   const [stats, players, { finishedMatches }, { allMatches: matchesData }] =
     await Promise.all([
@@ -175,10 +171,9 @@ export default async function MyTeam({
 
   return (
     <div className="w-full">
-      {/* <pre>{JSON.stringify(mysquad, null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(teamPlayers, null, 2)}</pre> */}
       <div className="flex flex-col justify-start items-center gap-4">
         {/* TEAM INFO CARD */}
-
         <Card className="transition-all flex flex-row justify-between items-center  md:px-8 px-4 pt-2 pb-4 md:py-2  w-full text-xs md:text-sm  ">
           <div className="flex flex-col md:flex-row justify-between md:items-center items-start gap-2 md:gap-6 w-full ">
             <h2 className="text-lg font-semibold text-center">
@@ -212,7 +207,6 @@ export default async function MyTeam({
           </div>
         </Card>
         <NextMatchesValueTable players={teamPlayers} matches={matchesData} />
-
         <PointHistoryTable players={teamPlayers} matches={matchesData} />
       </div>
     </div>

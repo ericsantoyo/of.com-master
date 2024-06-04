@@ -22,7 +22,8 @@ const SquadForm = ({ allPlayers, allTeams, userEmail }) => {
       selectedPlayers.length < 26 &&
       !selectedPlayers.some((p) => p.playerID === player.playerID)
     ) {
-      setSelectedPlayers((prev) => [...prev, player]);
+      // Convert playerID to number before adding
+      setSelectedPlayers((prev) => [...prev, { ...player, playerID: Number(player.playerID) }]);
     }
   };
 
@@ -49,7 +50,7 @@ const SquadForm = ({ allPlayers, allTeams, userEmail }) => {
     formData.append('squadName', squadName);
     formData.append('email', userEmail);
     selectedPlayers.forEach(player => {
-      formData.append('playerIDs', player.playerID);
+      formData.append('playerIDs', String(player.playerID)); // Ensure playerID is number
     });
 
     await createSquad(formData);
