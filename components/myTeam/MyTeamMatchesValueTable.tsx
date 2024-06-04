@@ -1,10 +1,5 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
-
-import Link from "next/link";
-import { Home } from "lucide-react";
-import { Plane } from "lucide-react";
-
 import {
   Table,
   TableBody,
@@ -23,6 +18,9 @@ import {
   slugById,
 } from "@/utils/utils";
 import Image from "next/image";
+import Link from "next/link";
+import { Home } from "lucide-react";
+import { Plane } from "lucide-react";
 
 interface MyTeamMatchesValueTableProps {
   players: players[];
@@ -41,7 +39,7 @@ const MyTeamMatchesValueTable: React.FC<MyTeamMatchesValueTableProps> = ({
         <TableCaption></TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-text-center w-14">Pos</TableHead>
+            <TableHead className=" text-center w-14">Pos</TableHead>
             <TableHead className=" text-center ">Jugador</TableHead>
             <TableHead className=" text-center ">Proximos Partidos</TableHead>
             <TableHead className=" text-center">Puntos</TableHead>
