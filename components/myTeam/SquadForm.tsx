@@ -60,6 +60,13 @@ const SquadForm = ({ allPlayers, allTeams, userEmail }) => {
     setSelectedPlayers([]);
   };
 
+  const handleSquadNameChange = (e) => {
+    const newSquadName = e.target.value;
+    if (newSquadName.length <= 20) {
+      setSquadName(newSquadName);
+    }
+  };
+
   return (
     <form onSubmit={saveSquad}>
       {error && <div className="text-red-500">{error}</div>}
@@ -78,7 +85,7 @@ const SquadForm = ({ allPlayers, allTeams, userEmail }) => {
           className="block w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none sm:text-sm"
           placeholder="Enter squad name"
           value={squadName}
-          onChange={(e) => setSquadName(e.target.value)}
+          onChange={handleSquadNameChange}
         />
       </div>
       <div>

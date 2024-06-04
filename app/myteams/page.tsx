@@ -65,22 +65,22 @@ export default async function MyTeamsPage() {
           <Table className="w-full ">
             <TableHeader>
               <TableRow className="">
-                <TableHead className=" text-center ">Nombre</TableHead>
-                <TableHead className=" text-center">#</TableHead>
-                <TableHead className=" text-center">Acciones</TableHead>
+                <TableHead className="  text-center ">Nombre</TableHead>
+                <TableHead className=" text-center ">#</TableHead>
+                <TableHead className=" text-center ">Acciones</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="p-0 m-0">
               {mySquads.map((squad) => (
                 <TableRow key={squad.squadID} className="">
-                  <TableCell className=" text-center">
+                  <TableCell className=" max-w-32 ">
                     <Link className="" href={`/myteams/${squad.squadID}`}>
-                      <span className="text-sm md:text-sm font-semibold whitespace-nowrap	">
+                      <p className="text-sm md:text-sm font-semibold truncate pl-2">
                         {squad.squadName}
-                      </span>
+                      </p>
                     </Link>
                   </TableCell>
-                  <TableCell className=" bg-neutral-100 border-x-2 text-center">
+                  <TableCell className=" bg-neutral-100 border-x-2 text-center shrink ">
                     <span className="">
                       {Array.isArray(squad.playersIDS)
                         ? squad.playersIDS.length
@@ -88,7 +88,7 @@ export default async function MyTeamsPage() {
                       <span className="font-semibold">/26</span>
                     </span>
                   </TableCell>
-                  <TableCell className=" text-center ">
+                  <TableCell className=" text-center shrink   ">
                     <div className="flex flex-row justify-center items-center gap-2 md:gap-4 shrink-0 ">
                       <Link
                         href={`myteams/${squad.squadID}`}
