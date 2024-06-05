@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Pencil, Trash2 } from "lucide-react";
+import { UserPlus, Trash2 } from "lucide-react";
 import {
   formatMoney,
   formatter,
@@ -116,7 +116,7 @@ const SquadForm = ({
               type="text"
               id="squadName"
               name="squadName"
-              className="block w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none sm:text-sm"
+              className="block w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none text-sm"
               placeholder="Entra un nombre para tu equipo"
               value={squadName}
               onChange={handleSquadNameChange}
@@ -132,7 +132,7 @@ const SquadForm = ({
             <input
               type="text"
               id="searchPlayer"
-              className="block w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none sm:text-sm"
+              className="block w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none text-sm"
               placeholder="Buscar Jugadores"
               value={searchTerm}
               onChange={(e) => {
@@ -159,9 +159,10 @@ const SquadForm = ({
           </div>
           <button
             type="submit"
-            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700"
+            className="flex justify-center items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 gap-2"
           >
-            Guardar Equipo
+            <UserPlus className="w-5 h-5" />
+            <span className="text-center">Guardar Equipo</span>
           </button>
 
           <div className="text-sm font-medium text-black-300">
@@ -236,9 +237,9 @@ const SquadForm = ({
                   <TableCell className={"flex justify-center items-center"}>
                     <button
                       onClick={() => removePlayer(player.playerID)}
-                      className="px-2 py-1 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                      className="py-1 px-1.5 font-bold text-white bg-red-500 rounded hover:bg-red-700"
                     >
-                      <Trash2 className="w-4 h-4 md:w-5 md:h-5" />
+                      <Trash2 className="w-4 h-5 " />
                     </button>
                   </TableCell>
                 </TableRow>
