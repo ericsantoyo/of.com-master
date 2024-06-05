@@ -84,7 +84,7 @@ export default function SearchBox(props: SearchProps) {
             {/* Display search results */}
             <div className="flex flex-col w-full overflow-auto">
               {filteredPlayers &&
-                filteredPlayers.map((player, index) => (
+                filteredPlayers.slice(0, 9).map((player, index) => (
                   <div key={player.playerID} className=" w-full">
                     <Link
                       href={`/player/${player.playerID}`}
@@ -101,7 +101,7 @@ export default function SearchBox(props: SearchProps) {
                         />
                       </div>
                       <span className="text-sm">{player.nickname}</span>
-                      <span className="text-sm">{player.playerID}</span>
+                      {/* <span className="text-sm">{player.playerID}</span> */}
                       <div className="flex justify-center items-center w-6">
                         <Image
                           src={`/teamLogos/${slugById(player.teamID)}.png`}
