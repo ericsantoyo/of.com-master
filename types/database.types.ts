@@ -190,25 +190,26 @@ export type Database = {
       }
       squads: {
         Row: {
-          email: string | null
+          email: string
           lineup: Json | null
-          playersIDS: Json | null
+          playersIDS: players[]
           squadID: string
-          squadName: string | null
+          squadName: string
+          
         }
         Insert: {
-          email?: string | null
+          email?: string 
           lineup?: Json | null
-          playersIDS?: Json | null
+          playersIDS?: number[] 
           squadID?: string
-          squadName?: string | null
+          squadName?: string 
         }
         Update: {
-          email?: string | null
+          email?: string 
           lineup?: Json | null
-          playersIDS?: Json | null
+          playersIDS?: number[] 
           squadID?: string
-          squadName?: string | null
+          squadName?: string 
         }
         Relationships: []
       }

@@ -34,17 +34,19 @@ const EditSquadForm = ({
 }) => {
   const [filteredPlayers, setFilteredPlayers] = useState(allPlayers.slice(0, 6));
   const squadID = squad.squadID;
-  const [squadPlayers, setSquadPlayers] = useState<Player[]>([]);
+  const [squadPlayers, setSquadPlayers] = useState<players[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [squadName, setSquadName] = useState(squad.squadName || "");
   const [error, setError] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    const updatedSquadPlayers = squad.playersIDS.map(({ playerID }) =>
-      allPlayers.find((player) => player.playerID === playerID)
-    ).filter((player): player is Player => !!player); // Ensure players are not undefined
-    setSquadPlayers(updatedSquadPlayers);
+    if (squad.playersIDS) {
+      const updatedSquadPlayers = squad.playersIDS
+        .map(({ playerID }) => allPlayers.find((player) => player.playerID === playerID))
+        .filter((player) => !!player) as players[]; // Filter out undefined values
+      setSquadPlayers(updatedSquadPlayers);
+    }
   }, [squad.playersIDS, allPlayers]);
 
   const getTeamByTeamID = (teamID: number) => {
@@ -52,7 +54,7 @@ const EditSquadForm = ({
     return team ? team.image : "";
   };
 
-  const addPlayer = (player: Player) => {
+  const addPlayer = (player: players) => {
     if (
       squadPlayers.length < 26 &&
       !squadPlayers.some((p) => p.playerID === player.playerID)
