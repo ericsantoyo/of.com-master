@@ -13,7 +13,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { UserPlus, Trash2, Search, Captions, UserSearch, Users  } from "lucide-react";
+import {
+  UserPlus,
+  Trash2,
+  Search,
+  Captions,
+  UserSearch,
+  Users,
+} from "lucide-react";
 import {
   formatMoney,
   formatter,
@@ -26,6 +33,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 const SquadForm = ({
   allPlayers,
@@ -37,7 +45,7 @@ const SquadForm = ({
   userEmail: string;
 }) => {
   const [filteredPlayers, setFilteredPlayers] = useState(
-    allPlayers.slice(0, 5)
+    allPlayers.slice(0, 6)
   );
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -105,13 +113,13 @@ const SquadForm = ({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-      <Card className="flex flex-col justify-start items-start w-full p-4 h-[465px] bg-neutral-100/30 ">
+      <Card className="flex flex-col justify-start items-start w-full p-4 h-[486px]  ">
         <form
           className="flex flex-col justify-between w-full h-full gap-4"
           onSubmit={saveSquad}
         >
           <div className="flex flex-col gap-4 pt-2">
-            <div className=" z-40 relative w-full flex flex-row justify-center items-center ">
+            <div className=" z-40 relative w-full flex flex-row justify-center items-center">
               <label
                 htmlFor="squadName"
                 className="block text-base font-medium ml-1"
@@ -125,7 +133,7 @@ const SquadForm = ({
                 placeholder="Nombre de tu equipo..."
                 className="pl-10 outline-none text-md backdrop-blur-sm bg-white"
               />
-              <Users   className="absolute h-4 w-4 top-[10px] left-4 text-muted-foreground" />
+              <Users className="absolute h-4 w-4 top-[10px] left-4 text-muted-foreground" />
             </div>
             <div className=" z-40 relative w-full flex flex-row justify-center items-center ">
               <label
@@ -151,13 +159,13 @@ const SquadForm = ({
                 placeholder="Buscar Jugadores"
                 className="pl-10 outline-none text-md backdrop-blur-sm bg-white"
               />
-              <UserSearch  className="absolute h-4 w-4 top-[10px] left-4 text-muted-foreground" />
+              <UserSearch className="absolute h-4 w-4 top-[10px] left-4 text-muted-foreground" />
             </div>
           </div>
           {/* Display search results */}
           <div className="flex flex-col justify-start h-full  w-full overflow-auto">
             {filteredPlayers &&
-              filteredPlayers.slice(0, 5).map((player, index) => (
+              filteredPlayers.slice(0, 6).map((player, index) => (
                 <div
                   key={player.playerID}
                   onClick={() => addPlayer(player)}
@@ -216,13 +224,14 @@ const SquadForm = ({
               ))}
           </div>
           <div className="flex flex-col gap-2">
-            <button
+            <Button
               type="submit"
-              className="flex justify-center items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 gap-2"
+              variant={"blue"}
+              className="flex justify-center items-center gap-2"
             >
-              <UserPlus className="w-5 h-5" />
+              <UserPlus className="w-4 h-4 md:w-5 md:h-5" />
               <span className="text-center">Guardar Equipo</span>
-            </button>
+            </Button>
 
             {error ? (
               <div className="text-sm font-medium text-center text-red-500">
@@ -236,7 +245,7 @@ const SquadForm = ({
           </div>
         </form>
       </Card>
-      <Card className="flex flex-col justify-start items-start w-full p-4 h-[465px] bg-neutral-100/30 overflow-visible">
+      <Card className="flex flex-col justify-start items-start w-full p-4 h-[486px]  overflow-visible">
         <h1 className="text-base font-medium text-center w-full">
           Jugadores Seleccionados ({selectedPlayers.length})
         </h1>
@@ -304,12 +313,14 @@ const SquadForm = ({
                   </TableCell>
 
                   <TableCell className={"flex justify-center items-center"}>
-                    <button
+                    <Button
                       onClick={() => removePlayer(player.playerID)}
-                      className="py-1 px-1.5 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                      variant={"red"}
+                      size={"icon"}
+                      className=""
                     >
-                      <Trash2 className="w-4 h-5 " />
-                    </button>
+                      <Trash2 className=" w-5 h-5" />
+                    </Button>
                   </TableCell>
                 </TableRow>
               );

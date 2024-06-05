@@ -10,6 +10,31 @@ async function getAllPlayers(): Promise<{ allPlayers: players[] }> {
   return { allPlayers: allPlayers as players[] };
 }
 
+async function getAllPlayersBasicInfo(): Promise<{ allPlayers: players[] }> {
+  const { data: allPlayers, error } = await supabase
+    .from("players")
+    .select(`
+      playerID,
+      name,
+      nickname,
+      position,
+      positionID,
+      marketValue,
+      teamID,
+      image,
+      points,
+      teamName
+    `) 
+    .order("points", { ascending: false });
+
+  if (error) {
+    console.error('Failed to fetch players:', error.message);
+    return { allPlayers: [] }; // Return an empty array on error
+  }
+  
+  return { allPlayers: allPlayers as players[] };
+}
+
 async function getAllNews(): Promise<{ allNews: any; error: any }> {
   const { data, error } = await supabase
     .from("news")
@@ -404,4 +429,5 @@ export {
   getNewsByPlayerID,
   getNewsById,
   fetchPlayersByIDs,
+  getAllPlayersBasicInfo,
 };

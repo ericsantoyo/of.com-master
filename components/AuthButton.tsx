@@ -1,7 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
+import { LogOut, LogIn } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-
+import { Button } from "./ui/button";
 
 export default async function AuthButton() {
   const supabase = createClient();
@@ -22,17 +23,29 @@ export default async function AuthButton() {
     <div className="flex items-center gap-4">
       <div className="hidden md:flex">Hola, {user.email}!</div>
       <form action={signOut}>
-        <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
-          Logout
-        </button>
+        <Button
+          variant="outline"
+          className="hidden md:flex justify-center items-center gap-2 whitespace-nowrap"
+        >
+          <LogOut size={16} />
+          <span className="">Cerrar sesión</span>
+        </Button>
+        <Button
+          variant="outline"
+          className="md:hidden flex justify-center items-center gap-2 whitespace-nowrap"
+        >
+          <LogOut size={16} />
+          <span className="">Salir</span>
+        </Button>
       </form>
     </div>
   ) : (
     <Link
       href="/login"
-      className="py-2 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
+      className="py-2 px-3 flex justify-center items-center gap-2 whitespace-nowrap rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
     >
-      Login
+      <LogIn size={16} />
+      <span className="">Iniciar sesión</span>
     </Link>
   );
 }

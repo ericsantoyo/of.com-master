@@ -17,6 +17,7 @@ import AuthButton from "@/components/AuthButton";
 
 import React from "react";
 import Delete from "@/components/myTeam/Delete";
+import { Button } from "@/components/ui/button";
 
 const getUserEmail = async (supabase: SupabaseClient<any, "public", any>) => {
   const {
@@ -44,8 +45,8 @@ export default async function MyTeamsPage() {
     return (
       <div className="flex flex-col justify-start items-center max-w-2xl mx-auto gap-4">
         <Card className="transition-all flex flex-row justify-between items-center  w-full text-sm  ">
-          <div className="flex flex-row justify-between items-center gap-2 w-full ">
-            <h1 className="text-lg font-semibold text-center whitespace-nowrap my-2 mx-4">
+          <div className="flex flex-row justify-between items-center gap-2 w-full mx-4 my-2">
+            <h1 className="text-lg font-semibold text-center whitespace-nowrap my-2 ">
               MyTeams Fantasy
             </h1>
 
@@ -56,9 +57,12 @@ export default async function MyTeamsPage() {
         </Card>
 
         <Link className="flex justify-end  w-full" href="/squads">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded-md w-full md:w-fit mx-1">
+          <Button
+            variant={"blue"}
+            className=" text-sm rounded-md w-full md:w-fit mx-1"
+          >
             + Crear Equipo
-          </button>
+          </Button>
         </Link>
 
         <Card className="flex flex-col justify-start items-start  w-full  ">
@@ -90,17 +94,15 @@ export default async function MyTeamsPage() {
                   </TableCell>
                   <TableCell className=" text-center shrink   ">
                     <div className="flex flex-row justify-center items-center gap-2 md:gap-4 shrink-0 ">
-                      <Link
-                        href={`myteams/${squad.squadID}`}
-                        className="bg-green-500 hover:bg-green-700 text-white font-bold rounded p-2"
-                      >
-                        <Eye className="w-4 h-4 md:w-5 md:h-5" />
+                      <Link href={`myteams/${squad.squadID}`} className="">
+                        <Button variant={"green"} size={"icon"} className="">
+                          <Eye className="w-4 h-4 md:w-5 md:h-5" />
+                        </Button>
                       </Link>
-                      <Link
-                        href={`squads/${squad.squadID}`}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
-                      >
-                        <Pencil className="w-4 h-4 md:w-5 md:h-5" />
+                      <Link href={`squads/${squad.squadID}`} className="">
+                        <Button variant={"blue"} size={"icon"} className="">
+                          <Pencil className="w-4 h-4 md:w-5 md:h-5" />
+                        </Button>
                       </Link>
                       <Delete id={squad.squadID} />
                     </div>
