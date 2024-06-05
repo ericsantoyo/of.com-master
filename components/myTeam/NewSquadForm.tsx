@@ -35,7 +35,7 @@ import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
-const SquadForm = ({
+const NewSquadForm = ({
   allPlayers,
   allTeams,
   userEmail,
@@ -332,4 +332,4 @@ const SquadForm = ({
   );
 };
 
-export default SquadForm;
+export default NewSquadForm;

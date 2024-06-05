@@ -56,7 +56,7 @@ export default async function MyTeamsPage() {
           </div>
         </Card>
 
-        <Link className="flex justify-end  w-full" href="/squads">
+        <Link className="flex justify-end  w-full" href="/myteams/create">
           <Button
             variant={"blue"}
             className=" text-sm rounded-md w-full md:w-fit mx-1"
@@ -94,12 +94,15 @@ export default async function MyTeamsPage() {
                   </TableCell>
                   <TableCell className=" text-center shrink   ">
                     <div className="flex flex-row justify-center items-center gap-2 md:gap-4 shrink-0 ">
-                      <Link href={`myteams/${squad.squadID}`} className="">
+                      <Link
+                        href={`myteams/analize/${squad.squadID}`}
+                        className=""
+                      >
                         <Button variant={"green"} size={"icon"} className="">
                           <Eye className="w-4 h-4 md:w-5 md:h-5" />
                         </Button>
                       </Link>
-                      <Link href={`squads/${squad.squadID}`} className="">
+                      <Link href={`myteams/edit/${squad.squadID}`} className="">
                         <Button variant={"blue"} size={"icon"} className="">
                           <Pencil className="w-4 h-4 md:w-5 md:h-5" />
                         </Button>
