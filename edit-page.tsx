@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { getAllPlayersBasicInfo, getAllTeams } from "@/utils/supabase/functions";
 import { redirect } from "next/navigation";
-import NewSquadForm from "@/components/myTeam/NewSquadForm";
+import EditSquadForm from "@/components/myTeam/EditSquadForm";
 import { Blocks } from "lucide-react";
 
 export default async function CreateSquadPage() {
@@ -23,7 +23,7 @@ export default async function CreateSquadPage() {
         <Blocks size={24} />
         <h1 className="text-2xl font-bold text-center">Crea tu Equipo</h1>
       </div>
-      <NewSquadForm
+      <EditSquadForm
         allPlayers={allPlayers}
         allTeams={allTeams}
         userEmail={user.email ?? ""}

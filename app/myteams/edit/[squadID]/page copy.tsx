@@ -39,8 +39,8 @@ import { Button } from "@/components/ui/button";
 import { updateSquad, getUserEmail } from "@/actions/actions";
 import { Card } from "@/components/ui/card";
 
-const SquadPage = () => {
-  const { id } = useParams();
+const EditSquadPage = () => {
+  const { squadID } = useParams();
 
   const [allPlayers, setPlayers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -89,20 +89,20 @@ const SquadPage = () => {
 
   useEffect(() => {
     const fetchSquadData = async () => {
-      const squadData = await getSquadById(id);
+      const squadData = await getSquadById(squadID);
       if (squadData) {
         setSquadName(squadData.squadName);
         setSquadPlayers(squadData.playersIDS || []);
         setLineup(squadData.lineup || []);
       }
     };
-    if (id) {
+    if (squadID) {
       fetchSquadData();
     }
-  }, [id, fetch]);
+  }, [squadID, fetch]);
 
-  function getPlayerById(id) {
-    return allPlayers?.find((player) => player.playerID === id);
+  function getPlayerById(squadID) {
+    return allPlayers?.find((player) => player.playerID === squadID);
   }
 
   function getTeamByTeamID(teamID) {
@@ -150,7 +150,7 @@ const SquadPage = () => {
     const formData = new FormData();
     formData.append("squadName", squadName);
     formData.append("email", userEmail); // Ensure userEmail is fetched correctly
-    formData.append("squadID", id);
+    formData.append("squadID", squadID);
     squadPlayers.forEach((player) => {
       formData.append("playerIDs", String(player.playerID));
     });
@@ -387,4 +387,4 @@ const SquadPage = () => {
   );
 };
 
-export default SquadPage;
+export default EditSquadPage;
