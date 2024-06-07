@@ -1,90 +1,71 @@
-'use client'
-import {
-  getAllPlayers,
-  getAllMatches,
-  getAllStats,
-  getTeamByTeamID,
-  getPlayersByTeamID,
-  getAllTeams,
-  getAllNews,
-} from "@/utils/supabase/functions";
-import { Link } from "lucide-react";
-import React, { useEffect, useState } from 'react';
+import NewsPagination from "@/components/news/NewsPagination";
+import MainNewsItem from "@/components/news/main-post-item";
+import MainPostItemLoading from "@/components/news/main-post-item-loading";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { v4 } from "uuid";
 
+export const revalidate = 0;
 
+interface NewsPageProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
 
-const NewsSnippet = ({ newsItem }) => {
-  const { title, content, cover_photo_url, created_at } = newsItem;
+export default async function NewsPage({ searchParams }: NewsPageProps) {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
 
-  return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg m-4">
-      <a href={`/news/${newsItem.id}`}>
-        <img className="w-full" src={cover_photo_url} alt="News Cover" />
-        <div className="px-6 py-4">
-          <div className="font-bold text-xl mb-2">{title}</div>
-        <p>
-            {new Date(created_at).toLocaleDateString()}
-        </p>
-        </div>
-          
+  // Fetch total pages, only count published news
+  const { count } = await supabase
+    .from("news")
+    .select("*", { count: "exact", head: true })
+    .eq("published", true);
 
-      </a>
+  // Pagination
+  const limit = 12;
+  const totalPages = count ? Math.ceil(count / limit) : 0;
+  const page =
+    typeof searchParams.page === "string" &&
+    +searchParams.page > 1 &&
+    +searchParams.page <= totalPages
+      ? +searchParams.page
+      : 1;
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
 
+  // Fetch posts
+  const { data, error } = await supabase
+    .from("news")
+    .select("*")
+    .eq("published", true)
+    .order("created_at", { ascending: false })
+    .range(from, to)
+    .returns<news[]>();
 
-    </div>
-  );
-};
-
-const NewsPage = ({ news }) => {
-  return (
-    <div className="flex flex-wrap w-full">
-      {news.map(newsItem => (
-        <NewsSnippet key={newsItem.id} newsItem={newsItem} />
-      ))}
-    </div>
-  );
-};
-
-
-// export default async function News() {
-//   const { allMatches: matchesData } = await getAllMatches();
-//   const { allTeams: teams } = await getAllTeams();
-//   const { allNews: news } = await getAllNews();
-
-//   return (
-//     <div className=" flex flex-col gap-3">
-//       {/* <pre className="text-center">{JSON.stringify(teams, null, 2)}</pre> */}
-//       {/* <Calendar matches={matchesData} allTeams={teams} gamesToShow={6} /> */}
-
-//       <p className="text-center text-lg font-bold">
-
-//         NEWS Page
-
-//       </p>
-//       <NewsPage news={news}/>
-//     </div>
-//   );
-// }
-
-const News = () => {
-  const [news, setNews] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-
-      const { allNews: newsData } = await getAllNews();
-      setNews(newsData);
-    };
-
-    fetchData();
-  }, []);
+  if (!data || error || !data.length) {
+    notFound();
+  }
 
   return (
-    <div className=" flex flex-col gap-3">
-      <p className="text-center text-lg font-bold">NEWS Page</p>
-      <NewsPage news={news} />
-    </div>
+    <>
+      <div className="p-2 w-full grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {data?.map((news) => (
+          <Suspense key={v4()} fallback={<MainPostItemLoading />}>
+            <MainNewsItem news={news} />
+          </Suspense>
+        ))}
+      </div>
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <NewsPagination
+          page={page}
+          totalPages={totalPages}
+          baseUrl="/news"
+          pageUrl="?page="
+        />
+      )}
+    </>
   );
-};
-
-export default News;
+}
