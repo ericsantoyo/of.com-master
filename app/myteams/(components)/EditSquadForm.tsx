@@ -16,9 +16,9 @@ import {
 import { UserPlus, Trash2, UserSearch, Users } from "lucide-react";
 import { formatter, getPositionBadge, slugById } from "@/utils/utils";
 import Image from "next/image";
-import { Separator } from "../ui/separator";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 
 const EditSquadForm = ({

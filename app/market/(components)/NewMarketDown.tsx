@@ -43,7 +43,7 @@ import { slugById } from "@/utils/utils";
 import useSWR from "swr";
 import { Card, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import ModalValueChart from "../player/ModalValueChart";
+import ModalValueChart from "../../../components/player/ModalValueChart";
 import Link from "next/link";
 
 import {

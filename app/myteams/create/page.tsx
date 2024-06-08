@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { getAllPlayersBasicInfo, getAllTeams } from "@/utils/supabase/functions";
 import { redirect } from "next/navigation";
-import NewSquadForm from "@/components/myTeam/NewSquadForm";
+import NewSquadForm from "@/app/myteams/(components)/NewSquadForm";
 import { Blocks } from "lucide-react";
 
 export default async function CreateSquadPage() {

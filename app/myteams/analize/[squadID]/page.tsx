@@ -7,12 +7,11 @@ import {
   getFinishedMatches,
   getSquadById,
 } from "@/utils/supabase/functions";
-import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { ChevronsDown, ChevronsUp } from "lucide-react";
 import { formatter, lastChangeStyle } from "@/utils/utils";
-import NextMatchesValueTable from "@/components/myTeam/MyTeamMatchesValueTable";
-import PointHistoryTable from "@/components/myTeam/MyTeamPointHistoryTable";
+import NextMatchesValueTable from "@/app/myteams/(components)/MyTeamMatchesValueTable";
+import PointHistoryTable from "@/app/myteams/(components)/MyTeamPointHistoryTable";
 
 export const revalidate = 0;
 

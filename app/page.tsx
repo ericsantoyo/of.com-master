@@ -1,6 +1,6 @@
 import GamesPreview from "@/components/GamesPreview";
-import NewMarketDown from "@/components/market/NewMarketDown";
-import NewMarketUp from "@/components/market/NewMarketUp";
+import NewMarketDown from "@/app/market/(components)/NewMarketDown";
+import NewMarketUp from "@/app/market/(components)/NewMarketUp";
 import { Separator } from "@/components/ui/separator";
 
 export default function Home() {

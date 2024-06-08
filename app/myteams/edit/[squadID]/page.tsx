@@ -5,8 +5,8 @@ import {
   getSquadById,
 } from "@/utils/supabase/functions";
 import { redirect, useParams } from "next/navigation";
-import EditSquadForm from "@/components/myTeam/EditSquadForm";
-import { Blocks, UserCog } from "lucide-react";
+import EditSquadForm from "@/app/myteams/(components)/EditSquadForm";
+import { UserCog } from "lucide-react";
 
 export default async function CreateSquadPage({
   params,
@@ -32,7 +32,7 @@ export default async function CreateSquadPage({
     <div className="space-y-6">
       {/* <pre>{JSON.stringify(mysquad, null, 2)}</pre> */}
       <div className="flex justify-center items-center gap-2 mx-auto w-full">
-        <UserCog  size={24} />
+        <UserCog size={24} />
         <h1 className="text-2xl font-bold text-center">Edita tu Equipo</h1>
       </div>
       <EditSquadForm

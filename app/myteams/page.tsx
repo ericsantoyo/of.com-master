@@ -8,16 +8,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import AuthButton from "./(components)/AuthButton";
+import Delete from "./(components)/DeleteButton";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Pencil, Eye } from "lucide-react";
-import AuthButton from "@/components/AuthButton";
 
 import React from "react";
-import Delete from "@/components/myTeam/Delete";
-import { Button } from "@/components/ui/button";
 
 const getUserEmail = async (supabase: SupabaseClient<any, "public", any>) => {
   const {

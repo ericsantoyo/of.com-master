@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { createSquad } from "@/actions/actions";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -13,27 +16,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  UserPlus,
-  Trash2,
-  Search,
-  Captions,
-  UserSearch,
-  Users,
-} from "lucide-react";
-import {
-  formatMoney,
-  formatter,
-  getNextGames,
-  getPositionBadge,
-  lastChangeStyle,
-  slugById,
-} from "@/utils/utils";
+import { UserPlus, Trash2, UserSearch, Users } from "lucide-react";
+import { formatter, getPositionBadge, slugById } from "@/utils/utils";
 import Image from "next/image";
-import Link from "next/link";
-import { Separator } from "../ui/separator";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 
 const NewSquadForm = ({
   allPlayers,

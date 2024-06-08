@@ -1,9 +1,8 @@
 import { deleteSquad } from "@/actions/actions";
 import { Trash2 } from "lucide-react";
-import { Button } from "../ui/button";
-import { red } from "@mui/material/colors";
+import { Button } from "@/components/ui/button";
 
-const Delete = ({ id } : { id: string }) => {
+const Delete = ({ id }: { id: string }) => {
   return (
     <form action={deleteSquad}>
       <input type="hidden" name="id" value={id} />
