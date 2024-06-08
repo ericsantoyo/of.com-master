@@ -1,11 +1,7 @@
 import NewsPageLoading from "@/components/news/NewsPageLoading";
 import NewsPagination from "@/components/news/NewsPagination";
 import PreviewRectangle from "@/components/news/PreviewRectangle";
-import { createClient } from "@/utils/supabase/server";
 import { fetchNewsData } from "@/utils/supabase/serverFunctions";
-import { CalendarIcon, Clock10Icon } from "lucide-react";
-import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { v4 } from "uuid";
 
