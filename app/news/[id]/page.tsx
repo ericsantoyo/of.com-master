@@ -1,123 +1,25 @@
-// "use client";
-
-// import Preview from "@/components/Preview/Preview";
-// import { getNewsById } from "@/utils/supabase/functions";
-// import { useParams } from "next/navigation";
-// import { useEffect, useState } from "react";
-
-// import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
-
-// const ImageSlider = ({ slides }) => {
-//   if (!slides) {
-//     return null;
-//   }
-
-//   const [current, setCurrent] = useState(0);
-//   const length = slides.length;
-
-//   const nextSlide = () => {
-//     setCurrent(current === length - 1 ? 0 : current + 1);
-//   };
-
-//   const prevSlide = () => {
-//     setCurrent(current === 0 ? length - 1 : current - 1);
-//   };
-
-//   if (!Array.isArray(slides) || slides.length <= 0) {
-//     return null;
-//   }
-
-//   return (
-//     <section className="slider">
-//       <button className="left-arrow" onClick={prevSlide}>
-//         ←
-//       </button>
-//       <button className="right-arrow" onClick={nextSlide}>
-//         →
-//       </button>
-//       {slides.map((slide, index) => {
-//         return (
-//           <div
-//             className={index === current ? "slide active" : "slide"}
-//             key={index}
-//           >
-//             {index === current && (
-//               <img src={slide} alt="travel image" className="image" />
-//             )}
-//           </div>
-//         );
-//       })}
-//     </section>
-//   );
-// };
-
-// export default function SomeClientComponent() {
-//   const { id } = useParams();
-//   const [data, setData] = useState(null);
-
-//   useEffect(() => {
-//     async function fetchNews() {
-//       let { news } = await getNewsById(id);
-//       if (news) {
-//         setData(news[0]);
-//         console.log(news[0]);
-//       }
-//     }
-//     if (id) fetchNews();
-//   }, [id]);
-
-//   // if (!data) {
-//   //     return <p>Loading...</p>
-//   // }
-
-//   console.log(data);
-
-//   return (
-//     <div className="w-full mx-auto flex  items-center flex-col mt-8 p-4 bg-white rounded-lg ">
-//       <div className="max-w-lg">
-//         <img className="w-full rounded" src={data?.cover_photo_url} />
-//         <h1 className="text-2xl font-bold mb-4 mt-3">{data?.title}</h1>
-//       </div>
-//       <div>
-//         <Preview markdown={data?.content} />
-//       </div>
-//       <ImageSlider slides={data?.photos} />
-//       <div className="w-full">
-//         <h2 className="text-lg font-semibold mb-2">Tags</h2>
-//         <ul className="flex flex-wrap w-full">
-//           {data?.tags.map((tag, i) => (
-//             <li
-//               key={i}
-//               className="mr-2 mb-2 bg-gray-800 text-white rounded p-2 font-bold "
-//             >
-//               {tag.text}
-//             </li>
-//           ))}
-//         </ul>
-//       </div>
-//     </div>
-//   );
-// }
-// import { GetBookmark } from "@/actions/bookmark/get-bookmark";
-import {
-  // DetailPostComment,
-  // DetailPostFloatingBar,
-  DetailPostHeading,
-} from "@/components/news/detail/post";
-import { DetailPostScrollUpButton } from "@/components/news/detail/post/buttons";
-// import { seoData } from "@/config/root/seo";
-// import { getOgImageUrl, getUrl } from "@/lib/utils";
-// import {
-//   CommentWithProfile,
-//   PostWithCategoryWithProfile,
-// } from "@/types/collection";
-import type { Database } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
-import { format, parseISO } from "date-fns";
-import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-// import readingTime, { ReadTimeResults } from "reading-time";
+import { shimmer, toBase64 } from "@/utils/utils";
+import {
+  ArchiveIcon,
+  CalendarIcon,
+  Clock10Icon,
+  ClockIcon,
+} from "lucide-react";
+import Image from "next/image";
+import { FC } from "react";
+import { format, parseISO } from "date-fns";
+import { formatDistanceToNowStrict } from "date-fns";
+import { es } from "date-fns/locale";
+import { Metadata } from "next";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { ChevronLeft } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
+import ScrollUpButton from "@/components/news/ScrollUpButton";
+import BackButton from "@/components/news/BackButton";
 
 export const revalidate = 0;
 
@@ -126,18 +28,6 @@ interface NewsPageProps {
     id: string[];
   };
 }
-
-// async function getBookmark(postId: string, userId: string) {
-//   if (postId && userId) {
-//     const bookmark = {
-//       id: postId,
-//       user_id: userId,
-//     };
-//     const response = await GetBookmark(bookmark);
-
-//     return response;
-//   }
-// }
 
 async function getNews(params: { id: string }) {
   const id = params?.id;
@@ -228,101 +118,104 @@ async function getNews(params: { id: string }) {
 // }
 
 export default async function NewsPage({ params }: NewsPageProps) {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
   // Get post data
   const news = await getNews(params);
   if (!news) {
     notFound();
   }
-  // Set post views
+
   const id = params?.id;
 
-  // Check user logged in or not
-  // let username = null;
-  // let profileImage = null;
-  // const {
-  //   data: { session },
-  // } = await supabase.auth.getSession();
-
-  // if (session) {
-  //   username = session.user?.user_metadata.full_name;
-  //   profileImage =
-  //     session?.user?.user_metadata.picture ||
-  //     session?.user?.user_metadata.avatar_url;
-  // }
-
-  // Get bookmark status
-  // const isBookmarked = await getBookmark(
-  //   post.id as string,
-  //   session?.user.id as string,
-  // );
-
-  // Get comments
-  // const comments = await getComments(post.id as string);
-  // const readTime = readingTime(post.content ? post.content : "");
+  //News Date List
+  const date = news.created_at;
+  const title = news.title;
+  const image = news.cover_photo_url;
+  const content = news.content;
 
   return (
-    <>
-      <div className="min-h-full">
-        <div className="mx-auto max-w-7xl px-0 sm:px-8">
-          <div className="mx-auto max-w-4xl">
-            <div className="mx-auto max-w-4xl rounded-xl  px-5 py-5 shadow-sm shadow-gray-300 ring-1 ring-black/5 ">
-              <div className="relative mx-auto max-w-4xl">
-                {/* Heading */}
-                <DetailPostHeading
-                  id={news.id}
-                  title={news.title as string}
-                  image={news.cover_photo_url as string}
-                  // authorName={news.profiles.full_name as string}
-                  // authorImage={news.profiles.avatar_url as string}
-                  date={news.created_at as string}
-                  // category={news.categories?.title as string}
-                  // readTime={readTime as ReadTimeResults}
-                />
-                {/* Top Floatingbar */}
-                <div className="mx-auto">
-                  {/* <DetailPostFloatingBar
-                    id={news.id as string}
-                    title={news.title as string}
-                    text={news.description as string}
-                    // url={`${getUrl()}${encodeURIComponent(
-                    //   `/news/${news.id}`,
-                    // )}`}
-                    // totalComments={comments?.length}
-                    // isBookmarked={isBookmarked}
-                  /> */}
-                </div>
+    <div className="flex flex-col justify-center items-center pb-2">
+      {/* <div className="mx-auto max-w-4xl rounded-xl  px-5 py-5 shadow-sm shadow-gray-300 ring-1 ring-black/5 "> */}
+      <article className="container relative max-w-3xl py-6 lg:py-10">
+        <div>
+          {/* Date */}
+          <div className="flex justify-between items-center text-xs w-full text-muted-foreground">
+            <div className="flex flex-none items-center justify-start">
+              <BackButton />
+            </div>
+            <div className=" flex justify-start items-center gap-x-3 ">
+              <div className="">
+                <span className="capitalize">
+                  {formatDistanceToNowStrict(parseISO(date), {
+                    locale: es,
+                    addSuffix: true,
+                  })}
+                </span>
               </div>
-              {/* Content */}
-              <div className="relative mx-auto max-w-3xl border-slate-500/50 py-5">
-                <div
-                  className="lg:prose-md prose"
-                  dangerouslySetInnerHTML={{ __html: news.content || "" }}
-                />
+              <div className="flex items-center">
+                <CalendarIcon className="h-4 w-4" />
+                <span className="ml-1 ">
+                  {format(parseISO(date), "dd/MM/yyyy", {
+                    locale: es,
+                  })}{" "}
+                </span>
               </div>
-              <div className="mx-auto mt-10">
-                {/* Bottom Floatingbar */}
-                {/* <DetailPostFloatingBar
-                  id={news.id as string}
-                  title={news.title as string}
-                  text={news.description as string}
-                  // url={`${getUrl()}${encodeURIComponent(
-                  //   `/news/${news.id}`,
-                  // )}`}
-                  // totalComments={comments?.length}
-                  // isBookmarked={isBookmarked}
-                /> */}
+              <div className="flex items-center">
+                <Clock10Icon className="h-4 w-4" />
+                <span className="ml-1">
+                  {format(parseISO(date), "HH:mm", {
+                    locale: es,
+                  })}
+                </span>
               </div>
             </div>
           </div>
-          {/* <DetailPostComment
-            postId={post.id as string}
-            comments={comments as CommentWithProfile[]}
-          /> */}
+          <h1 className="scroll-m-20 text-3xl font-bold pt-4 tracking-tight lg:text-3xl">
+            {title}
+          </h1>
+          <div className="mt-4 flex items-center space-x-2">
+            <Image
+              src={"/playerImages/defaultplayer.png"}
+              alt={""}
+              width={32}
+              height={32}
+              className="rounded-full bg-white"
+            />
+            <div className="flex flex-col text-left leading-tight">
+              <p className="font-medium">Eric Sant</p>
+            </div>
+          </div>
         </div>
-        <DetailPostScrollUpButton />
-      </div>
-    </>
+
+        <Image
+          src={image || "/playerImages/defaultplayer.png"}
+          alt={title || ""}
+          width={720}
+          height={405}
+          className="my-8 rounded-md border bg-muted transition-colors w-full"
+          priority
+          placeholder={`data:image/svg+xml;base64,${toBase64(
+            shimmer(512, 288)
+          )}`}
+        />
+
+        <div
+          className="lg:prose-md prose"
+          dangerouslySetInnerHTML={{ __html: news.content || "" }}
+        />
+
+        <hr className="mt-12" />
+        <div className="flex justify-center pt-6 lg:pt-10">
+          <Link
+            href="/news"
+            className={cn(buttonVariants({ variant: "ghost" }))}
+          >
+            <ChevronLeft className="mr-2 h-4 w-4" />
+            Ver más noticias
+          </Link>
+        </div>
+      </article>
+      {/* </div> */}
+      <ScrollUpButton />
+    </div>
   );
 }

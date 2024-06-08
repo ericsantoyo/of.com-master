@@ -8,7 +8,7 @@ interface BackButtonProps {
   url?: string;
 }
 
-const NewsBackButton: React.FC<BackButtonProps> = ({
+const BackButton: React.FC<BackButtonProps> = ({
   className = "",
   url = "/",
 }) => {
@@ -21,7 +21,7 @@ const NewsBackButton: React.FC<BackButtonProps> = ({
         if (window.history.state && window.history.state.idx > 0) {
           router.back();
         } else {
-          router.push("/");
+          router.push("/news");
         }
       }}
     >
@@ -46,4 +46,4 @@ const NewsBackButton: React.FC<BackButtonProps> = ({
   );
 };
 
-export default NewsBackButton;
+export default BackButton;

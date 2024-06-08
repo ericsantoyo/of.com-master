@@ -3,7 +3,7 @@
 import React from "react";
 import ScrollToTop from "react-scroll-to-top";
 
-const DetailPostScrollUpButton = () => {
+const PostScrollUpButton = () => {
   return (
     <>
       <ScrollToTop
@@ -12,7 +12,7 @@ const DetailPostScrollUpButton = () => {
           width: "40px",
           borderRadius: "50%",
         }}
-        className="rounded-full bg-slate-50 p-2.5 !shadow-sm !ring-1 !ring-slate-300"
+        className="rounded-full bg-slate-50 p-2.5 !shadow-sm !ring-1 !ring-slate-300 mb-16"
         smooth
         component={
           <svg
@@ -36,4 +36,4 @@ const DetailPostScrollUpButton = () => {
   );
 };
 
-export default DetailPostScrollUpButton;
+export default PostScrollUpButton;

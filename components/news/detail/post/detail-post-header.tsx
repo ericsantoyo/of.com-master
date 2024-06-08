@@ -3,7 +3,7 @@
 // import { LoginMenu } from "@/components/login";
 
 // import { useReadingProgress } from "@/hooks/use-reading-progress";
-import NewsBackButton from "../../NewsBackButton";
+import NewsBackButton from "../../BackButton";
 
 interface DetailPostHeaderProps {
   title: string;
