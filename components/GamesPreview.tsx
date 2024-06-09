@@ -1,52 +1,19 @@
 "use client";
-import useSWR from "swr";
 import React, { useEffect, useState } from "react";
-
-import { getAllMatches } from "@/utils/supabase/functions";
-
 import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-
 import { getCurrentWeek, slugById } from "@/utils/utils";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-// Your component
-export default function GamesPreview() {
+
+export default function GamesPreview({ initialWeek , matches} : { initialWeek: number, matches: matches[] }) {
   const [selectedWeek, setSelectedWeek] = useState<number>(1);
-  const {
-    data: matches,
-    error,
-    isLoading,
-  } = useSWR("/api/user", getAllMatches);
 
   useEffect(() => {
-    if (matches && Array.isArray(matches.allMatches)) {
-      const initialWeek = getCurrentWeek(matches.allMatches);
-      setSelectedWeek(initialWeek);
-    }
-  }, [matches]);
-
-  // Handling errors
-  if (error) {
-    console.error("Error fetching matches:", error);
-    return <div>Error fetching matches</div>;
-  }
-
-  const handleWeekChange = (value: string) => {
-    // Fix 2: Change the type of value to string
-    setSelectedWeek(parseInt(value)); // Fix 3: Parse the string value to number
-  };
+    setSelectedWeek(initialWeek);
+  }, [initialWeek]);
 
   const handlePrevWeek = () => {
     setSelectedWeek((prevWeek) => Math.max(1, prevWeek - 1));
@@ -57,7 +24,7 @@ export default function GamesPreview() {
   };
   const firstMatchDate =
     matches &&
-    matches.allMatches
+    matches
       .filter((match) => match.week === selectedWeek)
       .sort((a, b) => {
         const dateA = a.matchDate ? new Date(a.matchDate).getTime() : 0;
@@ -77,6 +44,7 @@ export default function GamesPreview() {
 
   return (
     <div className="flex flex-col justify-start items-center w-full h-full overflow-y-auto grow">
+      {/* <pre>{JSON.stringify(matches, null, 2)}</pre> */}
       <div className="flex flex-row justify-center items-center gap-2 pb-2">
         <Button variant="outline" onClick={handlePrevWeek} className="mr-3 ">
           <ChevronLeftIcon />
@@ -107,7 +75,7 @@ export default function GamesPreview() {
         <div className=" grid grid-cols-2 md:grid-cols-5 gap-x-3 gap-y-2 mx-auto w-full  ">
           {/* Display matches for the selected week */}
           {matches &&
-            matches.allMatches
+            matches
               .filter((match) => match.week === selectedWeek)
               .sort((a, b) => {
                 const dateA = a.matchDate ? new Date(a.matchDate).getTime() : 0;

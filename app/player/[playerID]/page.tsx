@@ -3,31 +3,21 @@ import {
   getMatchesByTeamID,
   getTeamByTeamID,
 } from "@/utils/supabase/functions";
-
 import { ChevronsDown, ChevronsUp } from "lucide-react";
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
-import { notFound } from "next/navigation";
-import {
-  formatMoney,
-  getColor,
-  getWeeksTotalPointsFromSinglePlayer,
-  getWeeksTotalPointsFromStats,
-  nicknameById,
-  slugById,
-} from "@/utils/utils";
-
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { notFound } from "next/navigation";
+import { formatMoney, nicknameById, slugById } from "@/utils/utils";
 import HomeIcon from "@mui/icons-material/Home";
 import FlightIcon from "@mui/icons-material/Flight";
-
-import PlayerPreviousMatches from "@/components/player/PlayerPreviousMatches";
-import PlayerNextMatches from "@/components/player/PlayerNextMatches";
-import PlayerMatchesStats from "@/components/player/PlayerMatchesStats";
-import PlayerValueChart from "@/components/player/PlayerValueChart";
-import PlayerAllValueTable from "@/components/player/PlayerAllValueTable";
-import PlayerFantasyStat from "@/components/player/PlayerFantasyStat";
+import PlayerAllValueTable from "@/app/player/(components)/PlayerAllValueTable";
+import PlayerFantasyStat from "@/app/player/(components)/PlayerFantasyStat";
+import PlayerMatchesStats from "@/app/player/(components)/PlayerMatchesStats";
+import PlayerNextMatches from "@/app/player/(components)/PlayerNextMatches";
+import PlayerPreviousMatches from "@/app/player/(components)/PlayerPreviousMatches";
+import PlayerValueChart from "@/app/player/(components)/PlayerValueChart";
 
 type Props = {
   playerData: players;

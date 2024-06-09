@@ -1,12 +1,7 @@
 import { Card } from "@/components/ui/card";
-import Paper from "@mui/material/Paper";
 import Image from "next/image";
-import Link from "next/link";
 import {
-  getColor,
-  formatDate,
   formatMoney,
-  getWeeksTotalPointsFromStats,
   formatter,
   getTotalPointsOfTeam,
   getTotalMarketValueOfTeam,
@@ -18,7 +13,6 @@ import { getMatchesByTeamID } from "@/utils/supabase/functions";
 import NextMatches from "./TeamNextMatches";
 import TeamLastMatches from "./TeamLastMatches";
 import { ChevronsDown, ChevronsUp } from "lucide-react";
-import TeamPreviousMatches from "./TeamPreviousMatches";
 
 interface PlayerStats {
   statType: string;

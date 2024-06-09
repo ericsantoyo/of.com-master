@@ -1,8 +1,4 @@
 import { Card } from "@/components/ui/card";
-
-
-
-import { ChevronsDown, ChevronsUp } from "lucide-react";
 import Link from "next/link";
 import LooksOneOutlinedIcon from "@mui/icons-material/LooksOneOutlined";
 import LooksTwoOutlinedIcon from "@mui/icons-material/LooksTwoOutlined";

@@ -3,11 +3,9 @@ import {
   getFinishedMatches,
   getTopPlayersByPositionWithStats,
 } from "@/utils/supabase/functions";
-import TopPlayers from "@/components/stats/TopPlayers";
-
+import TopPlayers from "@/app/stats/(components)/TopPlayers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import MyTeamLineup from "@/components/myTeam/MyTeamLineup";
-import BestLineup from "@/components/stats/BestLineup";
+import BestLineup from "@/app/stats/(components)/BestLineup";
 
 export const revalidate = 0;
 

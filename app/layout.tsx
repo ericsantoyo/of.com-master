@@ -25,21 +25,19 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning lang="en">
-    <body className={`${inter.className}`}>
-      <Navbar />
-      <main className="container max-w-6xl ">
-        
-
-        {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem> */}
-        {/* <ThemeRegistry options={{ key: "mui" }}> */}
-        {children}
-        {/* </ThemeRegistry> */}
-        {/* </ThemeProvider> */}
-        {/* <Analytics /> */}
-      </main>
-      <Footer />
-      <BottomMenu />
-    </body>
-  </html>
+      <body className={`${inter.className}`}>
+        <Navbar />
+        <main className="container max-w-6xl ">
+          {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem> */}
+          {/* <ThemeRegistry options={{ key: "mui" }}> */}
+          {children}
+          {/* </ThemeRegistry> */}
+          {/* </ThemeProvider> */}
+          {/* <Analytics /> */}
+        </main>
+        <Footer />
+        <BottomMenu />
+      </body>
+    </html>
   );
 }

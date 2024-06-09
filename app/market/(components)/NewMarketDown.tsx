@@ -3,12 +3,12 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-balham.min.css";
-import tablePositions from "@/components/market/tableProps/tablePositions";
-import tableValues from "@/components/market/tableProps/tableValues";
-import tableClubLogos from "@/components/market/tableProps/tableClubLogos";
-import tableSubidasBajadas from "@/components/market/tableProps/tableSubidasBajadas";
-import tablePlayerNames from "@/components/market/tableProps/tablePlayerNames";
-import tablePlayerImg from "@/components/market/tableProps/tablePlayerImg";
+import tablePositions from "@/app/market/(components)/tablePositions";
+import tableValues from "@/app/market/(components)/tableValues";
+import tableClubLogos from "@/app/market/(components)/tableClubLogos";
+import tableSubidasBajadas from "@/app/market/(components)/tableSubidasBajadas";
+import tablePlayerNames from "@/app/market/(components)/tablePlayerNames";
+import tablePlayerImg from "@/app/market/(components)/tablePlayerImg";
 import HomeIcon from "@mui/icons-material/Home";
 import FlightIcon from "@mui/icons-material/Flight";
 import PersonSearchOutlinedIcon from "@mui/icons-material/PersonSearchOutlined";
@@ -43,7 +43,7 @@ import { slugById } from "@/utils/utils";
 import useSWR from "swr";
 import { Card, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import ModalValueChart from "../../../components/player/ModalValueChart";
+import ModalValueChart from "./ModalValueChart";
 import Link from "next/link";
 
 import {

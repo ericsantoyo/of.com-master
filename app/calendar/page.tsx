@@ -1,4 +1,4 @@
-import CalendarList from "@/components/calendar/Calendar";
+import CalendarList from "@/app/calendar/(components)/Calendar";
 import { getAllMatches, getAllTeams } from "@/utils/supabase/functions";
 
 export default async function Calendar() {

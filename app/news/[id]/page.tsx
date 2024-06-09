@@ -2,12 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { shimmer, toBase64 } from "@/utils/utils";
-import {
-  ArchiveIcon,
-  CalendarIcon,
-  Clock10Icon,
-  ClockIcon,
-} from "lucide-react";
+import { CalendarIcon, Clock10Icon } from "lucide-react";
 import Image from "next/image";
 import { FC } from "react";
 import { format, parseISO } from "date-fns";
@@ -18,8 +13,8 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ChevronLeft } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import ScrollUpButton from "@/components/news/ScrollUpButton";
-import BackButton from "@/components/news/BackButton";
+import ScrollUpButton from "@/app/news/(components)/ScrollUpButton";
+import BackButton from "@/app/news/(components)/BackButton";
 
 export const revalidate = 0;
 

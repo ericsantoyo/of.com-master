@@ -6,7 +6,7 @@ import { CalendarIcon, Clock10Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Skeleton } from "../ui/skeleton";
+
 
 export const dynamic = "force-dynamic";
 

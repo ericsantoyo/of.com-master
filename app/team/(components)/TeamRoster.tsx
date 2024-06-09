@@ -1,10 +1,7 @@
 import { Card } from "@/components/ui/card";
-import Paper from "@mui/material/Paper";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  formatDate,
-  formatMoney,
   getWeeksTotalPointsFromStats,
   lastChangeStyle,
   formatter,
@@ -12,14 +9,6 @@ import {
   getColor,
 } from "@/utils/utils";
 import { ChevronsDown, ChevronsUp } from "lucide-react";
-
-// const getColor = (points: number) => {
-//   if (points >= 10) return "bg-green-600 text-neutral-50 font-bold text-shadow";
-//   if (points >= 5) return "bg-green-500 text-neutral-50 font-bold text-shadow";
-//   if (points >= 2) return "bg-orange-500 text-neutral-50 font-bold text-shadow";
-//   if (points >= 0) return "bg-red-500 text-neutral-50 font-bold text-shadow";
-//   return "bg-red-700 text-neutral-50 font-bold text-shadow";
-// };
 
 interface PlayerStats {
   statType: string;

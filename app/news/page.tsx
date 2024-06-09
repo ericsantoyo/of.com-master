@@ -1,6 +1,6 @@
-import NewsPageLoading from "@/components/news/NewsPageLoading";
-import NewsPagination from "@/components/news/NewsPagination";
-import PreviewRectangle from "@/components/news/PreviewRectangle";
+import NewsPageLoading from "@/app/news/(components)/NewsPageLoading";
+import NewsPagination from "@/app/news/(components)/NewsPagination";
+import PreviewRectangle from "@/app/news/(components)/PreviewRectangle";
 import { fetchNewsData } from "@/utils/supabase/serverFunctions";
 import { Suspense } from "react";
 import { v4 } from "uuid";

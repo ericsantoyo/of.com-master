@@ -1,14 +1,8 @@
-import GamesPreview from "@/components/GamesPreview";
-import NewMarketDown from "@/app/market/(components)/NewMarketDown";
-import NewMarketUp from "@/app/market/(components)/NewMarketUp";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Suspense } from "react";
-import { getAllMatches } from "@/utils/supabase/functions";
-import { getCurrentWeek } from "@/utils/utils";
 
-const GamesPreviewSkeleton = () => {
+export default async function GamesPreviewSkeleton() {
   return (
     <div className="flex flex-col justify-start items-center w-full h-full overflow-y-auto grow">
       <div className="flex flex-row justify-center items-center gap-2 pb-2">
@@ -33,24 +27,5 @@ const GamesPreviewSkeleton = () => {
         </div>
       </div>
     </div>
-  );
-};
-
-export default async function Home() {
-  const { allMatches: matchesData } = await getAllMatches();
-  const initialWeek = getCurrentWeek(matchesData);
-
-  return (
-    <main className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {/* <pre>{JSON.stringify(matchesData, null, 2)}</pre> */}
-      <Suspense fallback={<GamesPreviewSkeleton />}>
-        <div className="col-span-full">
-          <GamesPreview initialWeek={initialWeek} matches={matchesData} />
-        </div>
-      </Suspense>
-      <div className="col-span-full w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent my-3" />
-      <NewMarketUp />
-      <NewMarketDown />
-    </main>
   );
 }

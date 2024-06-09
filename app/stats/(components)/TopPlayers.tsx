@@ -1,9 +1,6 @@
 import { Card } from "@/components/ui/card";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import { getPositionBadge, lastChangeStyle, slugById } from "@/utils/utils";
-import Image from "next/image";
 import NextMatchesValueTable from "./NextMatchesValueTable";
 import PointHistoryTable from "./PointHistoryTable";
 import { Separator } from "@/components/ui/separator";

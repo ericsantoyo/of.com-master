@@ -1,9 +1,9 @@
 import HomeIcon from "@mui/icons-material/Home";
 import FlightIcon from "@mui/icons-material/Flight";
 import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { getUpcomingMatches, slugById } from "@/utils/utils"; 
 import Image from "next/image";
-import { Separator } from "@/components/ui/separator";
 
 interface CalendarListProps {
   matches: matches[];

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getAllPlayers, getSquadById } from "@/utils/supabase/functions";
-import Formation from "@/app/components/formations/Formation";
+import Formation from "@/app/lineup/(components)/Formation"; 
 
 const Lineup = () => {
   const [selectedFormation, setSelectedFormation] = useState("4-3-3");

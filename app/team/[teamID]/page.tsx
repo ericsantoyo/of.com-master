@@ -1,18 +1,14 @@
 import {
-  getAllPlayers,
   getMatchesByTeamID,
   getAllStats,
   getTeamByTeamID,
   getPlayersByTeamID,
 } from "@/utils/supabase/functions";
-
-import TeamInfoCard from "@/components/team/TeamInfoCard";
-
+import TeamInfoCard from "@/app/team/(components)/TeamInfoCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import TeamLineup from "@/components/team/Lineup";
-import TeamRoster from "@/components/team/TeamRoster";
-
-import TeamMatchList from "@/components/team/TeamMatchList";
+import TeamLineup from "@/app/team/(components)/Lineup";
+import TeamRoster from "@/app/team/(components)/TeamRoster";
+import TeamMatchList from "@/app/team/(components)/TeamMatchList";
 
 export const revalidate = 0;
 
