@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-balham.min.css";
@@ -15,12 +15,7 @@ import PersonSearchOutlinedIcon from "@mui/icons-material/PersonSearchOutlined";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import RectangleRoundedIcon from "@mui/icons-material/RectangleRounded";
 import HelpIcon from "@mui/icons-material/Help";
-import {
-  getAllPlayers,
-  getAllStats,
-  getMatchesByTeamID,
-  getAllTeams,
-} from "@/utils/supabase/functions";
+
 import {
   getColor,
   formatDate,
@@ -40,7 +35,6 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Backdrop from "@mui/material/Backdrop";
 import { slugById } from "@/utils/utils";
-import useSWR from "swr";
 import { Card, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import ModalValueChart from "./ModalValueChart";
@@ -49,57 +43,61 @@ import Link from "next/link";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 
-const NewMarketDown = () => {
-  const { data: playersWithStats, error } = useSWR(
-    ["getAllPlayers", "getAllStats"],
-    async () => {
-      const { allPlayers: players } = (await getAllPlayers()) as {
-        allPlayers: players[];
-      };
-      const { allStats: stats } = (await getAllStats()) as {
-        allStats: stats[];
-      };
+function formatPlayersWithStats(players: players[], stats: stats[]) {
+  const formattedPlayers = [];
 
-      return formatPlayersWithStats(players, stats);
-    }
-  );
-
-  const { data: allTeams } = useSWR("getAllTeams", async () => {
-    const { allTeams: teams } = (await getAllTeams()) as { allTeams: teams[] };
-
-    return teams;
-  });
-
-  function formatPlayersWithStats(players: players[], stats: stats[]) {
-    const formattedPlayers = [];
-
-    for (const player of players) {
-      const playerStats = stats.filter(
-        (stat) => stat.playerID === player.playerID
-      );
-      formattedPlayers.push({ playerData: player, stats: playerStats });
-    }
-
-    return formattedPlayers;
+  for (const player of players) {
+    const playerStats = stats.filter(
+      (stat) => stat.playerID === player.playerID
+    );
+    formattedPlayers.push({ playerData: player, stats: playerStats });
   }
-  const [selectedPlayer, setSelectedPlayer] = useState<players | null>(null);
 
+  return formattedPlayers;
+}
+
+export default function NewMarketDown({
+  allPlayers,
+  allStats,
+  allMatches,
+}: {
+  allPlayers: players[];
+  allStats: stats[];
+  allMatches: matches[];
+}) {
+  const playersWithStats = formatPlayersWithStats(allPlayers, allStats);
+
+  const [selectedPlayer, setSelectedPlayer] = useState<players | null>(null);
+  const [teamMatches, setTeamMatches] = useState<matches[]>([]);
   const [open, setOpen] = useState(false);
   const gridRef = useRef<AgGridReact>(null);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  function getMatchesByTeamID(teamID: number, matches: matches[]) {
+    const teamMatches: matches[] = [];
+
+    for (const match of matches) {
+      if (match.localTeamID === teamID || match.visitorTeamID === teamID) {
+        teamMatches.push(match);
+      }
+    }
+
+    return teamMatches;
+  }
+
   const handlePlayerSelection = async (player: players) => {
     if (player) {
-      const { teamMatches } = await getMatchesByTeamID(
-        player.playerData.teamID
+      const teamMatches = getMatchesByTeamID(
+        player.playerData.teamID as number,
+        allMatches
       );
       if (teamMatches) {
         setTeamMatches(teamMatches as matches[]);
@@ -156,8 +154,6 @@ const NewMarketDown = () => {
   const marketValueList = selectedPlayer?.playerData?.marketValues
     ? selectedPlayer.playerData.marketValues.map((entry) => entry.marketValue)
     : [];
-
-  const [teamMatches, setTeamMatches] = useState<matches[]>([]);
 
   const cellRenderers = {
     tablePlayerImg,
@@ -639,7 +635,7 @@ const NewMarketDown = () => {
           "h-auto flex flex-col justify-start items-center transition-all  overflow-hidden "
         }
       >
-        {/* <pre>{JSON.stringify(allTeams, null, 2)}</pre> */}
+        {/* <pre>{JSON.stringify(teamMatches, null, 2)}</pre> */}
         {/* Search Bar */}
         <div
           className=" flex flex-row justify-between items-center w-full h-16 px-3 
@@ -692,6 +688,4 @@ const NewMarketDown = () => {
       </Card>
     </>
   );
-};
-
-export default NewMarketDown;
+}

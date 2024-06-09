@@ -42,76 +42,6 @@ async function getNews(params: { id: string }) {
   return response.data;
 }
 
-// export async function generateMetadata({
-//   params,
-// }: PostPageProps): Promise<Metadata> {
-//   const post = await getPost(params);
-//   const truncateDescription =
-//     post?.description?.slice(0, 100) + ("..." as string);
-//   const slug = "/posts/" + post?.slug;
-
-//   if (!post) {
-//     return {};
-//   }
-
-//   return {
-//     title: post.title,
-//     description: post.description,
-//     authors: {
-//       name: seoData.author.name,
-//       url: seoData.author.twitterUrl,
-//     },
-//     openGraph: {
-//       title: post.title as string,
-//       description: post.description as string,
-//       type: "article",
-//       url: getUrl() + slug,
-//       images: [
-//         {
-//           url: getOgImageUrl(
-//             post.title as string,
-//             truncateDescription as string,
-//             [post.categories?.title as string] as string[],
-//             slug as string,
-//           ),
-//           width: 1200,
-//           height: 630,
-//           alt: post.title as string,
-//         },
-//       ],
-//     },
-//     twitter: {
-//       card: "summary_large_image",
-//       title: post.title as string,
-//       description: post.description as string,
-//       images: [
-//         getOgImageUrl(
-//           post.title as string,
-//           truncateDescription as string,
-//           [post.categories?.title as string] as string[],
-//           slug as string,
-//         ),
-//       ],
-//     },
-//   };
-// }
-
-// async function getComments(postId: string) {
-//   const cookieStore = cookies();
-//   const supabase = createClient(cookieStore);
-//   const { data: comments, error } = await supabase
-//     .from("comments")
-//     .select("*, profiles(*)")
-//     .eq("post_id", postId)
-//     .order("created_at", { ascending: true })
-//     .returns<CommentWithProfile[]>();
-
-//   if (error) {
-//     console.error(error.message);
-//   }
-//   return comments;
-// }
-
 export default async function NewsPage({ params }: NewsPageProps) {
   // Get post data
   const news = await getNews(params);
@@ -130,7 +60,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
   return (
     <div className="flex flex-col justify-center items-center pb-2">
       {/* <div className="mx-auto max-w-4xl rounded-xl  px-5 py-5 shadow-sm shadow-gray-300 ring-1 ring-black/5 "> */}
-      <article className="container relative max-w-3xl py-6 lg:py-10">
+      <article className="container relative max-w-3xl py-4 ">
         <div>
           {/* Date */}
           <div className="flex justify-between items-center text-xs w-full text-muted-foreground">

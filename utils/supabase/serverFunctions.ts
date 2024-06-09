@@ -27,7 +27,7 @@ async function fetchNewsData(searchParams: { [key: string]: string | string[] | 
   const to = from + limit - 1;
 
   // Artificial delay for testing loading state
-  await delay(3000); // 3 seconds delay
+  // await delay(3000); // 3 seconds delay
 
   // Fetch posts
   const { data, error } = await supabase
