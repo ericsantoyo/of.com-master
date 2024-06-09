@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import BottomMenu from "@/components/MobileMenu";
 import Footer from "@/components/footer/Footer";
+import { Toaster } from "@/components/ui/toaster";
 
 // import { Analytics } from "@vercel/analytics/react";
 
@@ -37,6 +38,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <BottomMenu />
+        <Toaster />
       </body>
     </html>
   );

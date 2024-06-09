@@ -35,6 +35,13 @@ async function getAllPlayersBasicInfo(): Promise<{ allPlayers: players[] }> {
   return { allPlayers: allPlayers as players[] };
 }
 
+
+
+
+
+
+
+
 async function getAllNews(): Promise<{ allNews: any; error: any }> {
   const { data, error } = await supabase
     .from("news")

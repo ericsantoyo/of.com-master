@@ -16,6 +16,40 @@ export const getUserEmail = async () => {
   return user.email;
 };
 
+// export const getUserRole = async () => {
+//   const supabase = createClient();
+//   const {
+//     data: { user },
+//   } = await supabase.auth.getUser();
+
+//   if (!user) {
+//     return null;
+//   }
+
+//   return user;
+// }
+
+export const getUserRole = async () => {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "User not authenticated", role: null };
+  }
+
+  const { data, error } = await supabase
+    .from("roles")
+    .select("role")
+    .eq("email", user.email)
+    .single();
+
+  if (error || !data) {
+    return { error: error?.message || "Role not found", role: null };
+  }
+
+  return { error: null, role: data.role };
+};
+
 export async function deleteSquad(formData : FormData) {
   try {
     const id = formData.get('id');

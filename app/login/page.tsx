@@ -4,6 +4,8 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "./submit-button";
 
+import { getUserRole } from "@/actions/actions";
+
 export default function Login({
   searchParams,
 }: {
@@ -25,8 +27,15 @@ export default function Login({
       return redirect("/login?message=Could not authenticate user");
     }
 
-    return redirect("/myteams");
-  };
+   // Fetch the user's role
+   const { error: roleError, role } = await getUserRole();
+
+   if (roleError || (role !== "owner" && role !== "manager")) {
+     return redirect("/myteams");
+   } else {
+     return redirect("/dashboard");
+   }
+ };
 
   const signUp = async (formData: FormData) => {
     "use server";
@@ -85,7 +94,7 @@ export default function Login({
           required
         />
         <label className="text-md" htmlFor="password">
-        Contraseña
+          Contraseña
         </label>
         <input
           className="rounded-md px-4 py-2 bg-inherit border mb-6"
