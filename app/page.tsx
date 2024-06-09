@@ -5,7 +5,13 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
-import { getAllMatches } from "@/utils/supabase/functions";
+import {
+  getAllPlayers,
+  getAllStats,
+  getMatchesByTeamID,
+  getAllTeams,
+  getAllMatches,
+} from "@/utils/supabase/functions";
 import { getCurrentWeek } from "@/utils/utils";
 
 const GamesPreviewSkeleton = () => {
@@ -39,6 +45,11 @@ const GamesPreviewSkeleton = () => {
 export default async function Home() {
   const { allMatches: matchesData } = await getAllMatches();
   const initialWeek = getCurrentWeek(matchesData);
+  const { allPlayers: players } = (await getAllPlayers()) as {
+    allPlayers: players[];
+  };
+  const { allStats: stats } = (await getAllStats()) as { allStats: stats[] };
+  const { allTeams: teams } = (await getAllTeams()) as { allTeams: teams[] };
 
   return (
     <main className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -49,8 +60,8 @@ export default async function Home() {
         </div>
       </Suspense>
       <div className="col-span-full w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent my-3" />
-      <NewMarketUp />
-      <NewMarketDown />
+      <NewMarketUp allPlayers={players} allStats={stats} allMatches={matchesData} />
+      <NewMarketDown allPlayers={players} allStats={stats} allMatches={matchesData} />
     </main>
   );
 }
