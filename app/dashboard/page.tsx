@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-// import { getAllArticles } from "@/utils/actions/articles/get-all-articles"
+import { getAllArticles } from "@/actions/articlesActions";
 // import { readSites } from "@/utils/actions/sites/read-sites"
 // import { Site } from "@/utils/types"
 import { StopCircle, VerifiedIcon } from "lucide-react";
@@ -13,6 +13,7 @@ import { getAllNews } from "@/utils/supabase/dashboadFunctions";
 
 export default async function ProtectedDahboardPage() {
   //fetch all news
+  const response = await getAllArticles()
   const { data: allNews } = await getAllNews();
 
   const email = await getUserEmail(); // Await the email retrieval if asynchronous
@@ -48,8 +49,8 @@ export default async function ProtectedDahboardPage() {
             Noticias
           </h1>
           <div className="flex flex-wrap justify-start items-center  gap-3 mt-[1.5rem] mb-[2rem] w-full">
-            {allNews?.length ?? 0 > 0 ? (
-              allNews?.map((info: any) => (
+            {response?.length ?? 0 > 0 ? (
+              response?.map((info: any) => (
                 <Link href={`/dashboard/preview/${info?.slug}`} key={info?.id}>
                   <article
                     key={info?.id}

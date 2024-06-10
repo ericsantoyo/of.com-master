@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { readSites } from "../actions/sites/read-sites";
+import { readSites } from "@/actions/sitesActions";
 
 
 export const useGetAllSites = () => {

@@ -3,7 +3,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
-
 //CREATE DOCUMENT
 export const createDocument = async (title: string) => {
   const supabase = createClient();
@@ -85,7 +84,7 @@ export const getDocumentById = async (id: string) => {
       .from("documents")
       .select("*")
       .eq("document_id", id);
-      // .eq("user_id", userId);
+    // .eq("user_id", userId);
 
     if (error?.code) return error;
 
@@ -138,7 +137,6 @@ export const storeDocument = async (
   }
 };
 
-
 //GET ALL ARTICLES
 export const getAllArticles = async () => {
   const supabase = createClient();
@@ -156,7 +154,6 @@ export const getAllArticles = async () => {
   }
 };
 
-
 //STORE ARTICLE
 export const storeArticles = async (
   title: string,
@@ -167,11 +164,10 @@ export const storeArticles = async (
   category_id: string,
   keywords: string,
   image: string,
-  image_alt: string,
-  site_id: string
+  image_alt: string
 ) => {
   const supabase = createClient();
-  const keywordArray = keywords?.split(',');
+  const keywordArray = keywords?.split(",");
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -205,26 +201,23 @@ export const storeArticles = async (
           image,
           image_alt,
           user_id: userData.user_id,
-          site_id
         },
       ])
       .select();
 
-      if (error?.code) return error;
+    if (error?.code) return error;
 
-      revalidatePath('/dashboard')
-  
-      return data;
-    } catch (error: any) {
-      return error;
-    }
-  };
-  
+    revalidatePath("/dashboard");
 
-  //UPDATE ARTICLE
-  export const updateArticle = async (slug: string, blog: string) => {
+    return data;
+  } catch (error: any) {
+    return error;
+  }
+};
+
+//UPDATE ARTICLE
+export const updateArticle = async (slug: string, blog: string) => {
   const supabase = createClient();
-
 
   try {
     const { data, error } = await supabase
@@ -260,8 +253,8 @@ export const getAllArticleBySlug = async (slug: string) => {
       category (*)
       `
       )
-      .eq("slug", slug)
-      // .eq("user_id", userId);
+      .eq("slug", slug);
+    // .eq("user_id", userId);
 
     if (error?.code) return error;
 
@@ -295,10 +288,7 @@ export const readPublicArticle = async (id: string) => {
 };
 
 //SHARE ARTICLE
-export const shareArticle = async (
-  slug: string,
-  shareable: boolean
-) => {
+export const shareArticle = async (slug: string, shareable: boolean) => {
   const supabase = createClient();
   try {
     const { data, error } = await supabase
@@ -322,15 +312,12 @@ export const shareArticle = async (
   }
 };
 
-
 //GET ALL AUTHORS
 export const getAllAuthors = async () => {
   const supabase = createClient();
   try {
-    const { data, error } = await supabase
-      .from("author")
-      .select("*")
-      // .eq("user_id", userId);
+    const { data, error } = await supabase.from("author").select("*");
+    // .eq("user_id", userId);
 
     if (error?.code) return error;
 
@@ -340,15 +327,12 @@ export const getAllAuthors = async () => {
   }
 };
 
-
 //GET ALL CATEGORIES
 export const getAllCategories = async () => {
   const supabase = createClient();
   try {
-    const { data, error } = await supabase
-      .from("category")
-      .select("*")
-      // .eq("user_id", userId);
+    const { data, error } = await supabase.from("category").select("*");
+    // .eq("user_id", userId);
 
     if (error?.code) return error;
 
