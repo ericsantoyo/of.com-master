@@ -13,7 +13,8 @@ async function getAllPlayers(): Promise<{ allPlayers: players[] }> {
 async function getAllPlayersBasicInfo(): Promise<{ allPlayers: players[] }> {
   const { data: allPlayers, error } = await supabase
     .from("players")
-    .select(`
+    .select(
+      `
       playerID,
       name,
       nickname,
@@ -24,23 +25,17 @@ async function getAllPlayersBasicInfo(): Promise<{ allPlayers: players[] }> {
       image,
       points,
       teamName
-    `) 
+    `
+    )
     .order("points", { ascending: false });
 
   if (error) {
-    console.error('Failed to fetch players:', error.message);
+    console.error("Failed to fetch players:", error.message);
     return { allPlayers: [] }; // Return an empty array on error
   }
-  
+
   return { allPlayers: allPlayers as players[] };
 }
-
-
-
-
-
-
-
 
 async function getAllNews(): Promise<{ allNews: any; error: any }> {
   const { data, error } = await supabase

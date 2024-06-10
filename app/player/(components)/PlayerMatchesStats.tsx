@@ -213,7 +213,6 @@ export default function PlayerMatchesStats({
   return (
     <Card className="flex flex-col justify-start items-start p-2 w-full">
       <h3 className="font-bold text-xl mx-auto">Partidos</h3>
-      {/* <pre>{JSON.stringify(playerStat, null, 2)}</pre> */}
       <ul className="list-none w-full flex flex-col justify-start items-start">
         {matchesData.map((match) => (
           <div className="w-full" key={match.matchID}>

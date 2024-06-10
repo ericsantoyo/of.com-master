@@ -42,7 +42,6 @@ export default async function Home() {
 
   return (
     <main className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {/* <pre>{JSON.stringify(matchesData, null, 2)}</pre> */}
       <Suspense fallback={<GamesPreviewSkeleton />}>
         <div className="col-span-full">
           <GamesPreview initialWeek={initialWeek} matches={matchesData} />

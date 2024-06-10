@@ -30,7 +30,6 @@ export default async function CreateSquadPage({
 
   return (
     <div className="space-y-6">
-      {/* <pre>{JSON.stringify(mysquad, null, 2)}</pre> */}
       <div className="flex justify-center items-center gap-2 mx-auto w-full">
         <UserCog size={24} />
         <h1 className="text-2xl font-bold text-center">Edita tu Equipo</h1>

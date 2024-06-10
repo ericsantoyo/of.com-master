@@ -77,8 +77,6 @@ export default function PlayerFantasyStat({
 
   return (
     <div className="flex flex-col justify-center items-center ">
-      {/* <pre>{JSON.stringify(playerStat, null, 2)}</pre> */}
-
       <div className="flex justify-center items-center w-full md:max-w-xl">
         <button onClick={scrollLeft} className="">
           <ArrowLeftIcon fontSize="large" />

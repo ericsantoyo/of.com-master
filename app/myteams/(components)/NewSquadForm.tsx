@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { createSquad } from "@/actions/actions";
+import { createSquad } from "@/actions/myTeamsActions";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";

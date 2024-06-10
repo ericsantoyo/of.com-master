@@ -4,8 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "./submit-button";
 
-import { getUserRole } from "@/actions/actions";
-
+import { getUserRole } from "@/actions/userActions";
 export default function Login({
   searchParams,
 }: {

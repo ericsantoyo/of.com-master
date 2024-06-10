@@ -86,7 +86,6 @@ export default async function StatsPage() {
 
   return (
     <>
-      {/* <pre>{JSON.stringify(topPlayersWithStats, null, 2)}</pre> */}
       <div className="flex w-full">
         <Tabs defaultValue="top20" className="grow w-full mx-auto">
           <TabsList className="flex flex-row justify-center items-center ">

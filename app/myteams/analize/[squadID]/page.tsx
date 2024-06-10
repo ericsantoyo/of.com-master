@@ -170,7 +170,6 @@ export default async function MyTeam({
 
   return (
     <div className="w-full">
-      {/* <pre>{JSON.stringify(teamPlayers, null, 2)}</pre> */}
       <div className="flex flex-col justify-start items-center gap-4">
         {/* TEAM INFO CARD */}
         <Card className="transition-all flex flex-row justify-between items-center  md:px-8 px-4 pt-2 pb-4 md:py-2  w-full text-xs md:text-sm  ">

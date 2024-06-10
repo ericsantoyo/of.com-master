@@ -44,7 +44,6 @@ export default function GamesPreview({ initialWeek , matches} : { initialWeek: n
 
   return (
     <div className="flex flex-col justify-start items-center w-full h-full overflow-y-auto grow">
-      {/* <pre>{JSON.stringify(matches, null, 2)}</pre> */}
       <div className="flex flex-row justify-center items-center gap-2 pb-2">
         <Button variant="outline" onClick={handlePrevWeek} className="mr-3 ">
           <ChevronLeftIcon />

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { updateSquad } from "@/actions/actions";
+import { updateSquad } from "@/actions/myTeamsActions";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import {
@@ -106,7 +106,6 @@ const EditSquadForm = ({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-      {/* <pre>{JSON.stringify(squadPlayers, null, 2)}</pre> */}
       <Card className="flex flex-col justify-start items-start w-full p-4 h-[486px]">
         <form
           className="flex flex-col justify-between w-full h-full gap-4"

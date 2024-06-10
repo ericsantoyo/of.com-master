@@ -36,7 +36,6 @@ export default async function TeamInfoCard({ teamInfo, playerInfo }) {
 
   return (
     <>
-      {/* <pre>{JSON.stringify(totalLastMarketChange, null, 2)}</pre> */}
       <Card className="relative flex flex-row justify-between items-center gap-4  md:px-6 px-4 py-2 text-xs md:text-sm  rounded  ">
         <Card className="z-40 hidden md:flex flex-col justify-between items-start gap-2 backdrop-blur-md bg-white/30 p-4 rounded">
           <div className="flex flex-row justify-center items-center">

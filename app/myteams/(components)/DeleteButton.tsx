@@ -1,4 +1,4 @@
-import { deleteSquad } from "@/actions/actions";
+import { deleteSquad } from "@/actions/myTeamsActions";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 

@@ -658,7 +658,6 @@ const NewMarketUp = () => {
           "h-auto flex flex-col justify-start items-center transition-all  overflow-hidden "
         }
       >
-        {/* <pre>{JSON.stringify(allTeams, null, 2)}</pre> */}
         {/* Search Bar */}
         <div
           className=" flex flex-row justify-between items-center w-full h-16 px-3 

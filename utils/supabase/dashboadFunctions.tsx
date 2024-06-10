@@ -65,7 +65,7 @@ async function getAllNews() {
   const { data, error } = await supabase
     .from("news")
     .select("*")
-    .order("updated_at", { ascending: false });
+    .order("created_at", { ascending: false });
   return { data, error };
 }
 

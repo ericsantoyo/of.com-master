@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar/Navbar";
 import BottomMenu from "@/components/MobileMenu";
 import Footer from "@/components/footer/Footer";
 import { Toaster } from "@/components/ui/toaster";
+import Provider from "./provider";
 
 // import { Analytics } from "@vercel/analytics/react";
 
@@ -27,18 +28,20 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <body className={`${inter.className}`}>
-        <Navbar />
-        <main className="container max-w-6xl ">
-          {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem> */}
-          {/* <ThemeRegistry options={{ key: "mui" }}> */}
-          {children}
-          {/* </ThemeRegistry> */}
-          {/* </ThemeProvider> */}
-          {/* <Analytics /> */}
-        </main>
-        <Footer />
-        <BottomMenu />
-        <Toaster />
+        <Provider>
+          <Navbar />
+          <main className="container max-w-6xl ">
+            {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem> */}
+            {/* <ThemeRegistry options={{ key: "mui" }}> */}
+            {children}
+            {/* </ThemeRegistry> */}
+            {/* </ThemeProvider> */}
+            {/* <Analytics /> */}
+          </main>
+          <Footer />
+          <BottomMenu />
+          <Toaster />
+        </Provider>
       </body>
     </html>
   );
