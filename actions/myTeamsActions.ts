@@ -3,7 +3,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
-
 // DELETE SQUAD
 export async function deleteSquad(formData: FormData) {
   try {
@@ -20,15 +19,20 @@ export async function deleteSquad(formData: FormData) {
 
 // CREATE SQUAD
 export async function createSquad(formData: FormData) {
-  const supabase = createClient();
   const squadName = formData.get("squadName") as string;
   const playerIDs = formData.getAll("playerIDs") as string[];
   const email = formData.get("email") as string;
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const userID = user?.id;
 
   const newSquad = {
     squadName,
     playersIDS: playerIDs.map((id) => ({ playerID: Number(id) })), // Convert playerID to number
     email,
+    user_id: userID,
   };
 
   const { error } = await supabase.from("squads").insert(newSquad);
@@ -65,4 +69,3 @@ export async function updateSquad(formData: FormData) {
     revalidatePath("/myteams");
   }
 }
-

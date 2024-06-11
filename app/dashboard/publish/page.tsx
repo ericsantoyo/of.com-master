@@ -22,7 +22,7 @@ import { storeArticles } from "@/actions/articlesActions";
 import { useGetAllAuthors } from "@/utils/hooks/useGetAllAuthors";
 import { useGetAllCategories } from "@/utils/hooks/useGetAllCategories";
 import { useGetAllDocuments } from "@/utils/hooks/useGetAllDocuments";
-import { useGetAllSites } from "@/utils/hooks/useGetAllSites";
+
 import { UploadDropzone } from "@/utils/uploadthing";
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/react/style.css";
@@ -63,7 +63,7 @@ export default function Publish() {
   const { data: documentData } = useGetAllDocuments();
   const { data: authorsData } = useGetAllAuthors();
   const { data: categoryData } = useGetAllCategories();
-  // const { data: sitesData } = useGetAllSites();
+
 
   // Function to generate slug from title
   const generateSlug = (title: string) => {

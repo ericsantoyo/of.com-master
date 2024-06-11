@@ -1,16 +1,18 @@
+"use server";
+
 import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-//Fetch all news data with pagination
-async function fetchNewsData(searchParams: { [key: string]: string | string[] | undefined }) {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+async function getAllDocuments(searchParams: {
+  [key: string]: string | string[] | undefined;
+}) {
+  const supabase = createClient();
+
 
   // Fetch total pages, only count published news
   const { count } = await supabase
-    .from("news")
+    .from("blog")
     .select("*", { count: "exact", head: true })
     .eq("published", true);
 
@@ -31,7 +33,7 @@ async function fetchNewsData(searchParams: { [key: string]: string | string[] | 
 
   // Fetch posts
   const { data, error } = await supabase
-    .from("news")
+    .from("blog")
     .select("*")
     .eq("published", true)
     .order("created_at", { ascending: false })
@@ -39,14 +41,11 @@ async function fetchNewsData(searchParams: { [key: string]: string | string[] | 
     .returns<news[]>();
 
   if (!data || error || !data.length) {
-    throw new Error('No data found');
+    throw new Error("No data found");
   }
 
   return { data, totalPages, page };
 }
 
+export { getAllDocuments };
 
-
-
-
-export { fetchNewsData };

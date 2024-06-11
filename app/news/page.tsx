@@ -1,7 +1,7 @@
+import { getAllDocuments } from "@/actions/get-all-published-news";
 import NewsPageLoading from "@/app/news/(components)/NewsPageLoading";
 import NewsPagination from "@/app/news/(components)/NewsPagination";
 import PreviewRectangle from "@/app/news/(components)/PreviewRectangle";
-import { fetchNewsData } from "@/utils/supabase/serverFunctions";
 import { Suspense } from "react";
 import { v4 } from "uuid";
 
@@ -12,7 +12,7 @@ interface NewsPageProps {
 }
 
 const NewsPageContent = async ({ searchParams }: NewsPageProps) => {
-  const { data, totalPages, page } = await fetchNewsData(searchParams);
+  const { data, totalPages, page } = await getAllDocuments(searchParams);
 
   return (
     <>

@@ -58,23 +58,24 @@ export const deleteDocument = async (id: string) => {
   }
 };
 
-//GET ALL DOCUMENTS
-export const getAllDocuments = async () => {
-  const supabase = createClient();
-  try {
-    const { data, error } = await supabase
-      .from("documents")
-      .select("*")
-      // .eq("user_id", userId);
-      .order("created_at", { ascending: false });
+//GET ALL DOCUMENTS (isolated)
+// export const getAllDocuments = async () => {
+//   const supabase = createClient();
+//   try {
+//     //all docs that are published
+//     const { data, error } = await supabase
+//       .from("documents")
+//       .select("*")
+//       .eq("published", true)
+//       .order("created_at", { ascending: false });
 
-    if (error?.code) return error;
+//     if (error?.code) return error;
 
-    return data;
-  } catch (error: any) {
-    return error;
-  }
-};
+//     return data;
+//   } catch (error: any) {
+//     return error;
+//   }
+// };
 
 //GET DOCUMENT BY ID
 export const getDocumentById = async (id: string) => {

@@ -1,5 +1,4 @@
 import { createClient } from "@/utils/supabase/server";
-import { getMySquads } from "@/utils/supabase/functions";
 import {
   Table,
   TableBody,
@@ -18,32 +17,24 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { Pencil, Eye } from "lucide-react";
 
 import React from "react";
-
-const getUserEmail = async (supabase: SupabaseClient<any, "public", any>) => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return null;
-  }
-
-  return user.email;
-};
+import { getMySquads } from "@/actions/get-my-squads";
 
 export default async function MyTeamsPage() {
   const supabase = createClient();
-  const email = await getUserEmail(supabase);
 
-  if (!email) {
-    return redirect("/login");
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    redirect("/login");
   }
 
   try {
-    const { mySquads } = await getMySquads(email);
+    const mySquads = await getMySquads();
 
     return (
       <div className="flex flex-col justify-start items-center max-w-2xl mx-auto gap-4">
+        {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
         <Card className="transition-all flex flex-row justify-between items-center  w-full text-sm  ">
           <div className="flex flex-row justify-between items-center gap-2 w-full mx-4 my-2">
             <h1 className="text-lg font-semibold text-center whitespace-nowrap my-2 ">

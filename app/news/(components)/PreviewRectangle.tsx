@@ -20,12 +20,12 @@ const PreviewRectangle: React.FC<PreviewRectangleProps> = async ({ news }) => {
       <div className="group relative w-full rounded-xl p-2 bg-white ring-[1px] ring-neutral-300 transition duration-200 hover:-translate-y-1">
         <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-br from-neutral-200 to-neutral-600 opacity-[0.5] blur-lg"></div>
         <div className="relative h-full max-w-full rounded-xl ">
-          <Link href={`/news/${news.id}`}>
+          <Link href={`/news/${news.slug}`}>
             <article className="relative isolate flex flex-col gap-1 rounded-xl   sm:gap-4  h-full w-full">
               <div className="relative aspect-[16/9] overflow-hidden rounded-xl">
                 <Image
-                  src={news.cover_photo_url ?? "/images/not-found.jpg"}
-                  alt={news.title ?? "Cover"}
+                  src={news.image ?? "/images/not-found.jpg"}
+                  alt={news.image_alt ?? "Cover"}
                   fill={true}
                   style={{ objectFit: "cover" }}
                   priority

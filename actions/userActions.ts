@@ -74,6 +74,34 @@ export const getUserEmail = async () => {
   return user.email;
 };
 
+export const getUser = async () => {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return null;
+  }
+
+  return user;
+};
+
+
+const fetchUserRoles = async (userId) => {
+  const { data, error } = await supabase
+    .from('roles')
+    .select('role')
+    .eq('user_id', userId);
+
+  if (error) {
+    console.error('Error fetching roles:', error);
+    return [];
+  }
+  return data.map(entry => entry.role);
+};
+
+
 export const getUserRole = async () => {
   const supabase = createClient();
   const {

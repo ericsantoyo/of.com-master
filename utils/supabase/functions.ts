@@ -37,15 +37,15 @@ async function getAllPlayersBasicInfo(): Promise<{ allPlayers: players[] }> {
   return { allPlayers: allPlayers as players[] };
 }
 
-async function getAllNews(): Promise<{ allNews: any; error: any }> {
-  const { data, error } = await supabase
-    .from("news")
-    .select("*")
-    .eq("published", true)
-    .order("updated_at", { ascending: false });
-  // console.log(data);
-  return { allNews: data, error };
-}
+// async function getAllNews(): Promise<{ allNews: any; error: any }> {
+//   const { data, error } = await supabase
+//     .from("news")
+//     .select("*")
+//     .eq("published", true)
+//     .order("updated_at", { ascending: false });
+//   // console.log(data);
+//   return { allNews: data, error };
+// }
 
 async function getNewsByPlayerID(playerID: number) {
   const { data: newses, error: newsError } = await supabase
@@ -131,16 +131,6 @@ async function getMyTeams(): Promise<{ myTeams: myteams[] }> {
   return { myTeams: data as myteams[] };
 }
 
-// async function getMySquads(): Promise<{ mySquads: squads[] }> {
-//   const { data, error } = await supabase.from("squads").select("*");
-
-//   if (error) {
-//     console.error("Error fetching myTeams:", error);
-//     return { mySquads: [] };
-//   }
-
-//   return { mySquads: data as squads[] };
-// }
 
 async function fetchPlayersByIDs(playerIDs: number[]): Promise<players[]> {
   const { data: players, error } = await supabase
@@ -156,19 +146,29 @@ async function fetchPlayersByIDs(playerIDs: number[]): Promise<players[]> {
   return players;
 }
 
-async function getMySquads(email: string): Promise<{ mySquads: squads[] }> {
-  const { data: squads, error } = await supabase
-    .from("squads")
-    .select("*")
-    .eq("email", email); // Ensure this matches your database schema
+// async function getMySquads () {
+//   const supabase = createClient();
+  
+//   const {
+//     data: { user },
+//   } = await supabase.auth.getUser();
+//   const userID = user?.id;
 
-  if (error) {
-    console.error("Error fetching squads:", error);
-    return { mySquads: [] };
-  }
+//   try {
+//     const { data, error } = await supabase
+//       .from("squads")
+//       .select("*")
+//       .eq("user_id", userID)
+     
 
-  return { mySquads: squads };
-}
+//     if (error?.code) return error;
+
+//     return data;
+//   } catch (error: any) {
+//     return error;
+//   }
+// };
+
 
 async function fetchStatsForMyTeamsPlayers(playerIds: number[]) {
   const { data: stats, error } = await supabase
@@ -419,7 +419,7 @@ export {
   fetchStatsForMyTeamsPlayers,
   fetchMyTeamPlayers,
   getFinishedMatches,
-  getMySquads,
+  // getMySquads,
   getTopPlayersByPositionWithStats,
   deleteSquadById,
   createNewSquad,
@@ -427,7 +427,7 @@ export {
   getAllSquadsByEmail,
   getSquadById,
   updateSquad,
-  getAllNews,
+  // getAllNews,
   getNewsByPlayerID,
   getNewsById,
   fetchPlayersByIDs,

@@ -1,22 +1,22 @@
-import { getUserRole, getUserEmail } from "@/actions/userActions";
+import { getUserRole, getUserEmail, getUser } from "@/actions/userActions";
 import { redirect } from "next/navigation";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getAllArticles } from "@/actions/articlesActions";
-// import { readSites } from "@/utils/actions/sites/read-sites"
-// import { Site } from "@/utils/types"
 import { StopCircle, VerifiedIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllNews } from "@/utils/supabase/dashboadFunctions";
+import { createClient } from "@/utils/supabase/server";
+
+
 
 export default async function ProtectedDahboardPage() {
-  //fetch all news
   const response = await getAllArticles()
-  const { data: allNews } = await getAllNews();
-
-  const email = await getUserEmail(); // Await the email retrieval if asynchronous
+  const email = await getUserEmail(); 
+  // const user = await supabase.auth.getUser();
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userID = user?.id;
 
   if (!email) {
     return redirect("/login");
@@ -33,8 +33,10 @@ export default async function ProtectedDahboardPage() {
     return redirect("/myteams");
   }
 
+
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
+      {/* <pre>{JSON.stringify(userID, null, 2)}</pre> */}
       {/* <div className="w-full">
         <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
           <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
