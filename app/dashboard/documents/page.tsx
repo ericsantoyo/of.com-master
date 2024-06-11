@@ -1,8 +1,8 @@
-import {  getAllDocumentsWithPagination } from "@/actions/articlesActions";
 
 import Documents from "./(components)/Documents";
 import CreateDocument from "../(components)/CreateDocument";
 import DashboardPagination from "../(components)/DashboadPagination";
+import { getAllDocumentsWithPagination } from "@/actions/get-all-documents-with-pagination";
 
 interface DocumentsPageProps {
   searchParams: { [key: string]: string | string[] | undefined };

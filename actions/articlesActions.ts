@@ -58,6 +58,7 @@ export const deleteDocument = async (id: string) => {
   }
 };
 
+//GET ALL DOCUMENTS
 export const getAllDocuments = async () => {
   const supabase = createClient();
   try {
