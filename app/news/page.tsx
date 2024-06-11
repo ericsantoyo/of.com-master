@@ -1,4 +1,4 @@
-import { getAllDocuments } from "@/actions/get-all-published-news";
+import { getAllPublishedNews } from "@/actions/get-all-published-news";
 import NewsPageLoading from "@/app/news/(components)/NewsPageLoading";
 import NewsPagination from "@/app/news/(components)/NewsPagination";
 import PreviewRectangle from "@/app/news/(components)/PreviewRectangle";
@@ -12,7 +12,7 @@ interface NewsPageProps {
 }
 
 const NewsPageContent = async ({ searchParams }: NewsPageProps) => {
-  const { data, totalPages, page } = await getAllDocuments(searchParams);
+  const { data, totalPages, page } = await getAllPublishedNews(searchParams);
 
   return (
     <>

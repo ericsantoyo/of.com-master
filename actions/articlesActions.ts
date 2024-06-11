@@ -58,24 +58,62 @@ export const deleteDocument = async (id: string) => {
   }
 };
 
+export const getAllDocuments = async () => {
+  const supabase = createClient();
+  try {
+    //all docs that are published
+    const { data, error } = await supabase
+      .from("documents")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error?.code) return error;
+
+    return data;
+  } catch (error: any) {
+    return error;
+  }
+};
+
 //GET ALL DOCUMENTS (isolated)
-// export const getAllDocuments = async () => {
-//   const supabase = createClient();
-//   try {
-//     //all docs that are published
-//     const { data, error } = await supabase
-//       .from("documents")
-//       .select("*")
-//       .eq("published", true)
-//       .order("created_at", { ascending: false });
+export const getAllDocumentsWithPagination = async (searchParams: {
+  [key: string]: string | string[] | undefined;
+}) => {
+  const supabase = createClient();
+  // Fetch total pages
+  const { count } = await supabase
+    .from("documents")
+    .select("*", { count: "exact", head: true });
 
-//     if (error?.code) return error;
+  // Pagination
+  const limit = 12;
+  const totalPages = count ? Math.ceil(count / limit) : 0;
+  const page =
+    typeof searchParams.page === "string" &&
+    +searchParams.page > 1 &&
+    +searchParams.page <= totalPages
+      ? +searchParams.page
+      : 1;
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
 
-//     return data;
-//   } catch (error: any) {
-//     return error;
-//   }
-// };
+  try {
+    //all docs that are published
+    const { data, error } = await supabase
+      .from("documents")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .range(from, to)
+      .returns<news[]>();
+
+    if (!data || error || !data.length) {
+      throw new Error("No data found");
+    }
+    return { data, totalPages, page };
+  } catch (error: any) {
+    return error;
+  }
+};
 
 //GET DOCUMENT BY ID
 export const getDocumentById = async (id: string) => {
@@ -172,20 +210,11 @@ export const storeArticles = async (
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   if (!user) {
     console.error("User not authenticated");
   }
-  const userEmail = user?.email;
-
-  const { data: userData, error: userError } = await supabase
-    .from("users")
-    .select("user_id")
-    .eq("email", userEmail)
-    .single();
-
-  if (userError || !userData) {
-    return { error: userError?.message || "User not found" };
-  }
+  const userID = user?.id;
 
   try {
     const { data, error } = await supabase
@@ -201,7 +230,7 @@ export const storeArticles = async (
           keywords: keywordArray,
           image,
           image_alt,
-          user_id: userData.user_id,
+          user_id: userID,
         },
       ])
       .select();

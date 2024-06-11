@@ -4,17 +4,15 @@ import { createClient } from "@/utils/supabase/server";
 
 // const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function getAllPublishedNews(searchParams: {
+async function getAllNews(searchParams: {
   [key: string]: string | string[] | undefined;
 }) {
   const supabase = createClient();
 
-
-  // Fetch total pages, only count published news
+  // Fetch total pages
   const { count } = await supabase
     .from("blog")
-    .select("*", { count: "exact", head: true })
-    .eq("published", true);
+    .select("*", { count: "exact", head: true });
 
   // Pagination
   const limit = 12;
@@ -35,7 +33,6 @@ async function getAllPublishedNews(searchParams: {
   const { data, error } = await supabase
     .from("blog")
     .select("*, category(*), author(*)")
-    .eq("published", true)
     .order("created_at", { ascending: false })
     .range(from, to)
     .returns<news[]>();
@@ -47,5 +44,4 @@ async function getAllPublishedNews(searchParams: {
   return { data, totalPages, page };
 }
 
-export { getAllPublishedNews };
-
+export { getAllNews };

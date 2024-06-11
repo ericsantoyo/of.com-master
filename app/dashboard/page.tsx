@@ -1,21 +1,28 @@
-import { getUserRole, getUserEmail, getUser } from "@/actions/userActions";
+import { getUserRole, getUserEmail } from "@/actions/userActions";
 import { redirect } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getAllArticles } from "@/actions/articlesActions";
 import { StopCircle, VerifiedIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
+import { getAllNews } from "@/actions/get-all-news";
+import DashboardPagination from "./(components)/DashboadPagination";
 
+interface ProtectedDahboardPageProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
 
-
-export default async function ProtectedDahboardPage() {
-  const response = await getAllArticles()
-  const email = await getUserEmail(); 
-  // const user = await supabase.auth.getUser();
+export default async function ProtectedDahboardPage({
+  searchParams,
+}: ProtectedDahboardPageProps) {
+  const { data, totalPages, page } = await getAllNews(searchParams);
+  const email = await getUserEmail();
+  
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const userID = user?.id;
 
   if (!email) {
@@ -33,85 +40,92 @@ export default async function ProtectedDahboardPage() {
     return redirect("/myteams");
   }
 
-
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      {/* <pre>{JSON.stringify(userID, null, 2)}</pre> */}
-      {/* <div className="w-full">
-        <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-          <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-            <p className="font-bold text-lg">Admin Panel</p>
-            <AuthButton />
-          </div>
-        </nav>
-      </div> */}
+      {/* <pre>{JSON.stringify(data?.length, null, 2)}</pre> */}
       <main className="flex w-full flex-col items-start p-4 justify-between ">
         <div className=" w-full">
           <h1 className="scroll-m-20 font-semibold tracking-tight text-3xl">
             Noticias
           </h1>
-          <div className="flex flex-wrap justify-start items-center  gap-3 mt-[1.5rem] mb-[2rem] w-full">
-            {response?.length ?? 0 > 0 ? (
-              response?.map((info: any) => (
-                <Link href={`/dashboard/preview/${info?.slug}`} key={info?.id}>
-                  <article
+          {data?.length ? (
+            <div className="flex flex-col">
+              <div className="p-2 w-full grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {data?.map((info) => (
+                  <Link
+                    href={`/dashboard/preview/${info?.slug}`}
                     key={info?.id}
-                    className="flex flex-col space-y-2 border dark:border-zinc-900 border-zinc-200 rounded-md max-w-[350px] hover:shadow-2xl hover:shadow-purple-500/50 transition-shadow duration-300"
                   >
-                    <Image
-                      src={info?.image}
-                      alt={info?.image_alt}
-                      width={900}
-                      height={452}
-                      className="rounded-t bg-muted border-b dark:border-zinc-600 border-zinc-200 transition-colors w-full"
-                    />
-                    <div className="flex flex-col px-[1rem] pt-[0.5rem] pb-[1.5rem]">
-                      <div className="flex lg:flex-row w-full justify-between items-center">
-                        <h2 className="text-lg font-bold">{info?.title}</h2>
-                      </div>
-                      <p className="text-muted-foreground pt-1 text-sm">
-                        {info?.subtitle}
-                      </p>
-                      <div className="flex justify-between mt-2 items-center w-full">
-                        <p className="text-xs text-muted-foreground">
-                          {new Date(info?.created_at)?.toLocaleDateString()}
+                    <article
+                      key={info?.id}
+                      className="relative isolate flex flex-col gap-1 rounded-xl h-full w-full border hover:shadow-2xl hover:shadow-neutral-500/50 transition-shadow duration-300 "
+                    >
+                      <Image
+                        src={info?.image}
+                        alt={info?.image_alt}
+                        // style={{ objectFit: "cover" }}
+
+                        width={900}
+                        height={452}
+                        className="rounded-t transition-colors w-full h-32 object-cover object-top
+ z-0"
+                      />
+                      <div className="flex flex-col px-[1rem] pt-[0.5rem] pb-[1rem]">
+                        <div className="flex lg:flex-row w-full justify-between items-center">
+                          <h2 className="text-lg font-bold line-clamp-2">
+                            {info?.title}
+                          </h2>
+                        </div>
+                        <p className="text-muted-foreground pt-1 text-sm line-clamp-2">
+                          {info?.subtitle}
                         </p>
-                        <div className="flex justify-center items-center gap-1">
-                          <Badge>{info?.category?.category}</Badge>
-                          {info?.published ? <VerifiedIcon /> : <StopCircle />}
+                        <div className="flex justify-between mt-2 items-center w-full">
+                          <p className="text-xs text-muted-foreground">
+                            {new Date(info?.created_at)?.toLocaleDateString()}
+                          </p>
+                          <div className="flex justify-center items-center gap-1">
+                            <Badge>{info?.category?.category}</Badge>
+                            {info?.published ? (
+                              <VerifiedIcon />
+                            ) : (
+                              <StopCircle />
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </article>
-                </Link>
-              ))
-            ) : (
-              <main className="flex flex-col gap-2 lg:gap-2 min-h-[30vh] w-full">
-                <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-                  <div className="flex flex-col items-center text-center">
-                    <h3 className="text-2xl font-bold tracking-tight">
-                      You have no articles
-                    </h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Articles will show here once you&apos;ve published
-                      articles
-                    </p>
-                    <Link href="/dashboard/documents">
-                      <Button>My Documents</Button>
-                    </Link>
-                  </div>
+                    </article>
+                  </Link>
+                ))}
+              </div>
+              {totalPages > 1 && (
+                <DashboardPagination
+                  page={page}
+                  totalPages={totalPages}
+                  baseUrl="/dashboard"
+                  pageUrl="?page="
+                />
+              )}
+            </div>
+          ) : (
+            <main className="flex flex-col gap-2 lg:gap-2 min-h-[30vh] w-full">
+              <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
+                <div className="flex flex-col items-center text-center">
+                  <h3 className="text-2xl font-bold tracking-tight">
+                    You have no articles
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Articles will show here once you&apos;ve published articles
+                  </p>
+                  <Link href="/dashboard/documents">
+                    <Button>My Documents</Button>
+                  </Link>
                 </div>
-              </main>
-            )}
-          </div>
+              </div>
+            </main>
+          )}
         </div>
       </main>
-      <div className="flex-1 flex flex-col gap-2 max-w-4xl px-3">
-        <h2 className="font-bold text-4xl mb-4 text-center">email: {email}</h2>
-        <h2 className="font-bold text-4xl mb-4 text-center">Role: {role}</h2>
-      </div>
       <div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent my-8" />
-
       <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
         <p></p>
       </footer>
