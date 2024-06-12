@@ -6,28 +6,25 @@ import { revalidatePath } from "next/cache";
 //CREATE DOCUMENT
 export const createDocument = async (title: string) => {
   const supabase = createClient();
+
+  // Get the current user's information
   const {
     data: { user },
+    error: userError,
   } = await supabase.auth.getUser();
-  if (!user) {
-    console.error("User not authenticated");
-  }
-  const userEmail = user?.email;
 
-  const { data: userData, error: userError } = await supabase
-    .from("users")
-    .select("user_id")
-    .eq("email", userEmail)
-    .single();
-
-  if (userError || !userData) {
-    return { error: userError?.message || "User not found" };
+  // If there's an error fetching the user, or no user is logged in, return an error
+  if (userError || !user) {
+    console.error("User not authenticated or error fetching user details.");
+    return { error: userError || "User not authenticated." };
   }
+
+  const userId = user.id;
 
   try {
     const { data, error } = await supabase
       .from("documents")
-      .insert([{ title, user_id: userData.user_id }])
+      .insert([{ title, user_id: userId }])
       .select();
 
     if (error?.code) return error;
@@ -39,22 +36,60 @@ export const createDocument = async (title: string) => {
 };
 
 //DELETE DOCUMENT
-export const deleteDocument = async (id: string) => {
+export const deleteDocument = async (documentId: string) => {
   const supabase = createClient();
+
+  // Get the current user's information
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  // If there's an error fetching the user, or no user is logged in, return an error
+  if (userError || !user) {
+    console.error("User not authenticated or error fetching user details.");
+    return { error: userError || "User not authenticated." };
+  }
+
+  const userId = user.id;
+
   try {
-    const { data, error } = await supabase
+    // Check if the document belongs to the user before attempting to delete
+    const { data: docData, error: docError } = await supabase
+      .from("documents")
+      .select("user_id")
+      .eq("document_id", documentId)
+      .single();
+
+    if (docError || !docData) {
+      console.error("Document not found or error fetching document.");
+      return { error: docError || "Document not found." };
+    }
+
+    // Verify the document belongs to the current user
+    if (docData.user_id !== userId) {
+      console.error("Attempt to delete a document not owned by the user.");
+      return { error: "You do not have permission to delete this document." };
+    }
+
+    // Proceed to delete the document
+    const { data: deleteData, error: deleteError } = await supabase
       .from("documents")
       .delete()
-      .eq("document_id", id)
-      .select();
+      .match({ document_id: documentId });
 
-    if (error?.code) return error;
+    if (deleteError) {
+      console.error("Error deleting the document.");
+      return { error: deleteError };
+    }
 
+    // Revalidate the path if necessary, to update frontend state
     revalidatePath("/dashboard/documents");
 
-    return data;
+    return deleteData;
   } catch (error: any) {
-    return error;
+    console.error("Error in deleting document:", error);
+    return { error };
   }
 };
 
@@ -71,46 +106,6 @@ export const getAllDocuments = async () => {
     if (error?.code) return error;
 
     return data;
-  } catch (error: any) {
-    return error;
-  }
-};
-
-//GET ALL DOCUMENTS (isolated)
-export const getAllDocumentsWithPagination = async (searchParams: {
-  [key: string]: string | string[] | undefined;
-}) => {
-  const supabase = createClient();
-  // Fetch total pages
-  const { count } = await supabase
-    .from("documents")
-    .select("*", { count: "exact", head: true });
-
-  // Pagination
-  const limit = 12;
-  const totalPages = count ? Math.ceil(count / limit) : 0;
-  const page =
-    typeof searchParams.page === "string" &&
-    +searchParams.page > 1 &&
-    +searchParams.page <= totalPages
-      ? +searchParams.page
-      : 1;
-  const from = (page - 1) * limit;
-  const to = from + limit - 1;
-
-  try {
-    //all docs that are published
-    const { data, error } = await supabase
-      .from("documents")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .range(from, to)
-      .returns<news[]>();
-
-    if (!data || error || !data.length) {
-      throw new Error("No data found");
-    }
-    return { data, totalPages, page };
   } catch (error: any) {
     return error;
   }

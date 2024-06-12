@@ -12,7 +12,7 @@ import { deleteDocument } from '@/actions/articlesActions'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export default function DeleteDocument({ id }: { id: string }) {
+export default function DeleteDocument({ documentId }: { documentId: string }) {
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter()
 
@@ -30,7 +30,7 @@ export default function DeleteDocument({ id }: { id: string }) {
         </DialogHeader>
         <Button type="submit" onClick={async () => {
           try {
-            const response = await deleteDocument(id)
+            const response = await deleteDocument(documentId)
             console.log('response', response)
             setOpen(false)
             router.push("/dashboard/documents")

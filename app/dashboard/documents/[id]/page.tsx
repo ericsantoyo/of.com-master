@@ -186,7 +186,7 @@ export default function DocumentEditor({ params }: { params: { id: string } }) {
           </h1>
         </div>
         <div className='flex gap-2'>
-          <DeleteDocument id={params?.id} />
+          <DeleteDocument documentId={params?.id} />
           <a href="/dashboard/documents">
             <Button variant="outline">Back</Button>
           </a>

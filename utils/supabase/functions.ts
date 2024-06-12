@@ -146,29 +146,6 @@ async function fetchPlayersByIDs(playerIDs: number[]): Promise<players[]> {
   return players;
 }
 
-// async function getMySquads () {
-//   const supabase = createClient();
-  
-//   const {
-//     data: { user },
-//   } = await supabase.auth.getUser();
-//   const userID = user?.id;
-
-//   try {
-//     const { data, error } = await supabase
-//       .from("squads")
-//       .select("*")
-//       .eq("user_id", userID)
-     
-
-//     if (error?.code) return error;
-
-//     return data;
-//   } catch (error: any) {
-//     return error;
-//   }
-// };
-
 
 async function fetchStatsForMyTeamsPlayers(playerIds: number[]) {
   const { data: stats, error } = await supabase
