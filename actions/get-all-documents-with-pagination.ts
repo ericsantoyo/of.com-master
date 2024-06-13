@@ -1,7 +1,8 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-import { revalidatePath } from "next/cache";
+
+// const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const getAllDocumentsWithPagination = async (searchParams: {
   [key: string]: string | string[] | undefined;
