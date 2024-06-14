@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 export const getArticleBySlugApi = async (slug: string, userId: string) => {
   const supabase = createClient();
   try {
-    // const result = await clerkClient.users.getUser(userId!);
+  
 
     const { data, error } = await supabase
       .from("blog")
@@ -19,7 +19,7 @@ export const getArticleBySlugApi = async (slug: string, userId: string) => {
       )
       .eq("slug", slug)
       .eq("published", true);
-    // .eq("user_id", result?.id);
+
 
     if (error?.code) return error;
 
@@ -33,7 +33,7 @@ export const getArticleBySlugApi = async (slug: string, userId: string) => {
 export const getAllArticlesApi = async (userId: string) => {
   const supabase = createClient();
   try {
-    // const result = await clerkClient.users.getUser(userId!);
+  
 
     const { data, error } = await supabase
       .from("blog")
@@ -56,7 +56,7 @@ export const getAllArticlesApi = async (userId: string) => {
 export const getArticlesSlugApi = async (userId: string) => {
   const supabase = createClient();
   try {
-    // const result = await clerkClient.users.getUser(userId!);
+  
 
     const { data, error } = await supabase
       .from("blog")

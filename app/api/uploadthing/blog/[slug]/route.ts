@@ -1,5 +1,5 @@
-import { getArticleBySlugApi } from "@/actions/articlesActions";
-import { clerkClient } from "@clerk/nextjs/server";
+import { getArticleBySlugApi } from "@/actions/apiActions";
+import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,9 +8,21 @@ export async function POST(
   { params }: { params: { slug: string } }
 ) {
   const authorization = headers().get("X-Auth-Key");
+  const supabase = createClient();
+  if (!authorization) {
+    return NextResponse.json({
+      status: 401,
+      message: "Unauthorized",
+    });
+  }
+
   try {
-    const result = await clerkClient.users.getUser(authorization!);
-    const response = await getArticleBySlugApi(params?.slug!, result?.id!);
+    const { data: user, error } = await supabase.auth.getUser(authorization);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    const response = await getArticleBySlugApi(params?.slug!, user.user.id);
 
     if (response?.error) {
       return NextResponse.json({
