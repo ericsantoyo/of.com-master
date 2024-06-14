@@ -120,18 +120,6 @@ async function getAllTeams(): Promise<{ allTeams: teams[] }> {
   return { allTeams: allTeams as teams[] };
 }
 
-async function getMyTeams(): Promise<{ myTeams: myteams[] }> {
-  const { data, error } = await supabase.from("myteams").select("*");
-
-  if (error) {
-    console.error("Error fetching myTeams:", error);
-    return { myTeams: [] };
-  }
-
-  return { myTeams: data as myteams[] };
-}
-
-
 async function fetchPlayersByIDs(playerIDs: number[]): Promise<players[]> {
   const { data: players, error } = await supabase
     .from("players")
@@ -145,7 +133,6 @@ async function fetchPlayersByIDs(playerIDs: number[]): Promise<players[]> {
 
   return players;
 }
-
 
 async function fetchStatsForMyTeamsPlayers(playerIds: number[]) {
   const { data: stats, error } = await supabase
@@ -392,7 +379,6 @@ export {
   getPaginatedPlayers,
   getAllMatches,
   getMatchesByTeamID,
-  getMyTeams,
   fetchStatsForMyTeamsPlayers,
   fetchMyTeamPlayers,
   getFinishedMatches,

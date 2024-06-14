@@ -30,29 +30,28 @@ export async function signup(formData: FormData) {
 
   const firstName = formData.get("first-name") as string;
   const lastName = formData.get("last-name") as string;
-  const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
     options: {
       data: {
         first_name: firstName,
         last_name: lastName,
-        role: 'visitor', // Default role
       },
     },
-  };
-
-  const { error } = await supabase.auth.signUp(data);
+  });
 
   if (error) {
     console.error("Signup error:", error);
-    redirect("/error");
+    redirect(`/error?message=${encodeURIComponent(error.message)}`);
   }
 
   revalidatePath("/", "layout");
   redirect("/");
 }
-
 
 export async function signout() {
   const supabase = createClient();
@@ -78,9 +77,12 @@ export async function signInWithGoogle() {
   });
 
   if (error) {
-    console.log(error);
+    console.error("OAuth sign-in error:", error);
     redirect("/error");
   }
 
-  redirect(data.url);
+  // Redirect to the OAuth URL
+  if (data.url) {
+    redirect(data.url);
+  }
 }
