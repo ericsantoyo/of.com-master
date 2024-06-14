@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import {
   BookA,
   BookCheck,
-  Globe,
+  Users,
   Home,
   NetworkIcon,
   Pen,
@@ -21,7 +21,7 @@ const navItems = [
   { href: "/dashboard/publish", label: "Publish Article", icon: BookA },
   { href: "/dashboard/author", label: "Create Author", icon: Pen },
   { href: "/dashboard/category", label: "Create Category", icon: Table },
-  { href: "/dashboard/sites", label: "Site(s)", icon: Globe, },
+  { href: "/dashboard/users", label: "User(s)", icon: Users, },
   { href: "/dashboard/api", label: "API", icon: NetworkIcon },
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
 ];

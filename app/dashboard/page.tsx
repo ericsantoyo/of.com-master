@@ -1,4 +1,3 @@
-import { getUserRole, getUserEmail } from "@/actions/userActions";
 import { redirect } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,33 +15,26 @@ interface ProtectedDahboardPageProps {
 export default async function ProtectedDahboardPage({
   searchParams,
 }: ProtectedDahboardPageProps) {
-  const { data, totalPages, page } = await getAllNews(searchParams);
-  const email = await getUserEmail();
-
   const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  const userID = user?.id;
+  const { data: user } = await supabase.from("user_roles").select("*").single();
 
-  if (!email) {
-    return redirect("/login");
-  }
+  // const {
+  //   data: { user },
+  // } = await supabase.auth.getUser();
 
-  const { error, role } = await getUserRole();
+  // if (!user) {
+  //   return redirect("/login");
+  // }
 
-  if (error) {
-    console.error("Error fetching role:", error);
-    return redirect("/login");
-  }
+  // if (user.role !== "admin" && user.role !== "editor") {
+  //   return redirect("/");
+  // }
 
-  if (role !== "owner" && role !== "manager") {
-    return redirect("/myteams");
-  }
+  const { data, totalPages, page } = await getAllNews(searchParams);
 
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
+      <pre>{JSON.stringify(user, null, 2)}</pre>
       <main className="flex w-full flex-col items-start p-4 justify-between ">
         <div className=" w-full">
           <h1 className="scroll-m-20 font-semibold tracking-tight text-3xl">

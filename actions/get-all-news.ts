@@ -10,9 +10,18 @@ async function getAllNews(searchParams: {
   const supabase = createClient();
 
   // Fetch total pages
-  const { count } = await supabase
+  const { count, error: countError } = await supabase
     .from("blog")
     .select("*", { count: "exact", head: true });
+
+  if (countError) {
+    throw new Error(`Error fetching count: ${countError.message}`);
+  }
+
+  // Handle case with no news entries
+  if (count === 0) {
+    return { data: [], totalPages: 0, page: 1 };
+  }
 
   // Pagination
   const limit = 12;
@@ -37,8 +46,8 @@ async function getAllNews(searchParams: {
     .range(from, to)
     .returns<news[]>();
 
-  if (!data || error || !data.length) {
-    throw new Error("No data found");
+  if (error) {
+    throw new Error(`Error fetching data: ${error.message}`);
   }
 
   return { data, totalPages, page };

@@ -87,23 +87,22 @@ export const getUser = async () => {
   return user;
 };
 
-
 const fetchUserRoles = async (userId) => {
   const { data, error } = await supabase
-    .from('roles')
-    .select('role')
-    .eq('user_id', userId);
+    .from("roles")
+    .select("role")
+    .eq("user_id", userId);
 
   if (error) {
-    console.error('Error fetching roles:', error);
+    console.error("Error fetching roles:", error);
     return [];
   }
-  return data.map(entry => entry.role);
+  return data.map((entry) => entry.role);
 };
-
 
 export const getUserRole = async () => {
   const supabase = createClient();
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -113,9 +112,9 @@ export const getUserRole = async () => {
   }
 
   const { data, error } = await supabase
-    .from("roles")
+    .from("user_roles")
     .select("role")
-    .eq("email", user.email)
+    .eq("user_id", user.id)
     .single();
 
   if (error || !data) {
@@ -124,3 +123,19 @@ export const getUserRole = async () => {
 
   return { error: null, role: data.role };
 };
+
+export async function getUserRoleById(userId: string) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId)
+    .single();
+
+  if (error) {
+    console.error("Error fetching user role:", error);
+    return null;
+  }
+
+  return data.role;
+}
