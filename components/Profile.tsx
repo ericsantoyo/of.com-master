@@ -9,7 +9,6 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { SignOutButton, useUser } from "@clerk/nextjs"
 import { CreditCard, LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
 
