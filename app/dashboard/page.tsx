@@ -18,7 +18,7 @@ export default async function ProtectedDahboardPage({
 }: ProtectedDahboardPageProps) {
   const { data, totalPages, page } = await getAllNews(searchParams);
   const email = await getUserEmail();
-  
+
   const supabase = createClient();
   const {
     data: { user },
@@ -42,7 +42,7 @@ export default async function ProtectedDahboardPage({
 
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
       <main className="flex w-full flex-col items-start p-4 justify-between ">
         <div className=" w-full">
           <h1 className="scroll-m-20 font-semibold tracking-tight text-3xl">
@@ -67,8 +67,7 @@ export default async function ProtectedDahboardPage({
 
                         width={900}
                         height={452}
-                        className="rounded-t transition-colors w-full h-32 object-cover object-top
- z-0"
+                        className="rounded-t transition-colors w-full h-32 object-cover object-top z-0"
                       />
                       <div className="flex flex-col px-[1rem] pt-[0.5rem] pb-[1rem]">
                         <div className="flex lg:flex-row w-full justify-between items-center">

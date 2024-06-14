@@ -3,6 +3,7 @@ import { LogOut, LogIn } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { signout } from "@/lib/auth-actions";
 
 export default async function AuthButton() {
   const supabase = createClient();
@@ -11,18 +12,10 @@ export default async function AuthButton() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const signOut = async () => {
-    "use server";
-
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    return redirect("/login");
-  };
-
   return user ? (
     <div className="flex items-center gap-4">
       <div className="hidden md:flex">Hola, {user.email}!</div>
-      <form action={signOut}>
+      <form action={signout}>
         <Button
           variant="outline"
           className="hidden md:flex justify-center items-center gap-2 whitespace-nowrap"
@@ -45,7 +38,7 @@ export default async function AuthButton() {
       className="py-2 px-3 flex justify-center items-center gap-2 whitespace-nowrap rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
     >
       <LogIn size={16} />
-      <span className="">Iniciar sesión</span>
+      <span className=""></span>
     </Link>
   );
 }

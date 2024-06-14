@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import AuthButton from "./(components)/AuthButton";
+import AuthButton from "../../components/AuthButton";
 import Delete from "./(components)/DeleteButton";
 import { redirect } from "next/navigation";
 import Link from "next/link";

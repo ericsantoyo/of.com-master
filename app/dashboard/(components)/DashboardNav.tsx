@@ -12,7 +12,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Link from "next/link";
-import AuthButton from "./AuthButton";
+import AuthButton from "@/components/AuthButton";
 // import { ModeToggle } from "@/components/ModeToggle"
 
 export default function DashboardNavMobile() {

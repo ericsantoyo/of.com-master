@@ -21,6 +21,8 @@ import GamesIcon from "./GamesIcon";
 import SearchBox from "./SearchBox";
 import Logo from "./Logo";
 import SocialIcons from "./SocialIcons";
+import LoginButton from "../LoginLogoutButton";
+import UserGreetText from "../UserGreetText";
 
 type Props = {};
 
@@ -60,9 +62,10 @@ export default function TopBar(props: Props) {
 
         {/* --- SOCIAL ICONS --- */}
         <SocialIcons className=" shrink-0 flex justify-between items-center gap-2" />
-
+       
         {/* MENU WITH TEXT AND ICONS */}
         <div className="hidden md:flex order-last md:order-first mr-8 justify-between items-center  md:gap-2 lg:gap-6  flex-nowrap font-semibold ">
+          <UserGreetText />
           {/* MARKET BUTTON */}
           <Link
             href="/market"
@@ -187,6 +190,7 @@ export default function TopBar(props: Props) {
               MyTeam
             </p>
           </Link>
+          <LoginButton />
         </div>
       </div>
     </>

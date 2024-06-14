@@ -7,6 +7,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import { getAllMatches } from "@/utils/supabase/functions";
 import { getCurrentWeek } from "@/utils/utils";
+import { createClient } from "@/utils/supabase/server";
+
+//get user
 
 const GamesPreviewSkeleton = () => {
   return (
@@ -40,6 +43,13 @@ export default async function Home() {
   const { allMatches: matchesData } = await getAllMatches();
   const initialWeek = getCurrentWeek(matchesData);
 
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const userID = user?.id;
+
   return (
     <main className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <Suspense fallback={<GamesPreviewSkeleton />}>
@@ -48,6 +58,7 @@ export default async function Home() {
         </div>
       </Suspense>
       <div className="col-span-full w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent my-3" />
+      <pre>{JSON.stringify(user, null, 2)}</pre>
       <NewMarketUp />
       <NewMarketDown />
     </main>
