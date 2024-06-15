@@ -65,7 +65,7 @@ export default function TopBar(props: Props) {
        
         {/* MENU WITH TEXT AND ICONS */}
         <div className="hidden md:flex order-last md:order-first mr-8 justify-between items-center  md:gap-2 lg:gap-6  flex-nowrap font-semibold ">
-          <UserGreetText />
+          {/* <UserGreetText /> */}
           {/* MARKET BUTTON */}
           <Link
             href="/market"

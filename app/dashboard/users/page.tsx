@@ -7,6 +7,7 @@ import UserList from "../(components)/UserList";
 export default async function Users() {
   const response = await fetchAllUsers();
   const response2 = await fetchAllUserRoles();
+  
 
   return (
     <main className="flex min-w-screen p-4 flex-col items-center justify-between w-full">

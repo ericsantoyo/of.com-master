@@ -3,6 +3,20 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
+export const fetchAllDocuments = async () => {
+  const supabase = createClient();
+  const { data, error } = await supabase.from("documents").select("*");
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+
+
+
 //CREATE DOCUMENT
 export const createDocument = async (title: string) => {
   const supabase = createClient();

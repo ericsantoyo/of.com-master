@@ -3,6 +3,7 @@ import Documents from "./(components)/Documents";
 import CreateDocument from "../(components)/CreateDocument";
 import DashboardPagination from "../(components)/DashboadPagination";
 import { getAllDocumentsWithPagination } from "@/actions/get-all-documents-with-pagination";
+import { fetchAllDocuments } from "@/actions/articlesActions";
 
 interface DocumentsPageProps {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -12,9 +13,11 @@ export default async function DocumentsPage({
   searchParams,
 }: DocumentsPageProps) {
   const { data, totalPages, page } = await getAllDocumentsWithPagination(searchParams);
+  const response = await fetchAllDocuments();
 
   return (
     <div className="flex flex-col gap-3">
+      <pre>{JSON.stringify(response, null, 2)}</pre>
       <div className="flex justify-end">
         <CreateDocument />
       </div>
