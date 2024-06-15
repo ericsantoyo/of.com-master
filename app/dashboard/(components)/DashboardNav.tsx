@@ -25,9 +25,9 @@ export default function DashboardNavMobile() {
           </SheetTrigger>
           <SheetContent side="left">
             <SheetHeader>
-              <SheetTitle>tsafi</SheetTitle>
+              <SheetTitle>Admin Panel</SheetTitle>
               <SheetDescription>
-                An opensource blog dashboard built using Nextjs, Supabase & TipTap
+                Welcome to your dashboard
               </SheetDescription>
             </SheetHeader>
             <div className="flex flex-col space-y-3 mt-[1rem]">
@@ -67,9 +67,9 @@ export default function DashboardNavMobile() {
                 </Link>
               </DialogClose>
               <DialogClose asChild>
-                <Link href="/dashboard/api">
+                <Link href="/dashboard/users">
                   <Button variant="outline" className="w-full">
-                    API
+                    Users
                   </Button>
                 </Link>
               </DialogClose>

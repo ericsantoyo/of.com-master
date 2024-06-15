@@ -42,3 +42,19 @@ export const createCategory = async (category: string) => {
     return error;
   }
 };
+
+
+//GET ALL CATEGORIES
+export const getAllCategories = async () => {
+  const supabase = createClient();
+
+  try {
+    const { data, error } = await supabase.from("category").select("*");
+
+    if (error?.code) return error;
+
+    return data;
+  } catch (error: any) {
+    return error;
+  }
+};

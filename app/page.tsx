@@ -57,7 +57,7 @@ export default async function Home() {
           <GamesPreview initialWeek={initialWeek} matches={matchesData} />
         </div>
       </Suspense>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
       <div className="col-span-full w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent my-3" />
       <NewMarketUp />
       <NewMarketDown />

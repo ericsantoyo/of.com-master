@@ -1,7 +1,6 @@
 // components/UserList.tsx
 "use client";
 import { useState, useEffect } from "react";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Modal from "@mui/material/Modal";
@@ -22,10 +21,17 @@ const style = {
   p: 4,
 };
 
+interface User {
+  id: string;
+  email: string;
+  user_id: string;
+  role: string;
+}
+
 const UserList = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [search, setSearch] = useState("");
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [role, setRole] = useState("visitor");
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -49,40 +55,40 @@ const UserList = () => {
 
   return (
     <div>
-    <div className="flex items-center mb-4">
-      <Input
-        type="text"
-        placeholder="Search users by email"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <Button onClick={() => setUsers(users.filter(user => user.email.includes(search)))}>Search</Button>
-    </div>
-    <ul>
-      {users.map((user) => (
-        <li key={user.user_id} className="flex justify-between items-center">
-          <span>{user.email}</span>
-          <Button onClick={() => { setSelectedUser(user); setModalOpen(true); }}>Change Role</Button>
-        </li>
-      ))}
-    </ul>
+      <div className="flex items-center mb-4">
+        <Input
+          type="text"
+          placeholder="Search users by email"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <Button onClick={() => setUsers(users.filter(user => user.email.includes(search)))}>Search</Button>
+      </div>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id} className="flex justify-between items-center m-2">
+            <span>{user.email}</span>
+            <Button onClick={() => { setSelectedUser(user); setModalOpen(true); }}>Change Role</Button>
+          </li>
+        ))}
+      </ul>
 
-    <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-      <Box sx={style}>
-        <h2>Change Role for {selectedUser?.email}</h2>
-        <Select
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          fullWidth
-        >
-          <MenuItem value="visitor">Visitor</MenuItem>
-          <MenuItem value="editor">Editor</MenuItem>
-          <MenuItem value="admin">Admin</MenuItem>
-        </Select>
-        <Button onClick={handleRoleChange}>Save</Button>
-      </Box>
-    </Modal>
-  </div>
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <Box sx={style}>
+          <h2>Change Role for {selectedUser?.email}</h2>
+          <Select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            fullWidth
+          >
+            <MenuItem value="visitor">Visitor</MenuItem>
+            <MenuItem value="editor">Editor</MenuItem>
+            <MenuItem value="admin">Admin</MenuItem>
+          </Select>
+          <Button onClick={handleRoleChange}>Save</Button>
+        </Box>
+      </Modal>
+    </div>
   );
 };
 

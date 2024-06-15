@@ -15,9 +15,11 @@ interface ProtectedDahboardPageProps {
 export default async function ProtectedDahboardPage({
   searchParams,
 }: ProtectedDahboardPageProps) {
-  const supabase = createClient();
-  const { data: user } = await supabase.from("user_roles").select("*").single();
 
+  const supabase = createClient();
+  // const { data: user } = await supabase.from("documents").select("*");
+
+  
   // const {
   //   data: { user },
   // } = await supabase.auth.getUser();
@@ -34,7 +36,7 @@ export default async function ProtectedDahboardPage({
 
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       <main className="flex w-full flex-col items-start p-4 justify-between ">
         <div className=" w-full">
           <h1 className="scroll-m-20 font-semibold tracking-tight text-3xl">
