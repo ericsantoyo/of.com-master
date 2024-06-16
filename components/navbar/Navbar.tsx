@@ -1,6 +1,7 @@
 import TopBar from "./TopBar";
 import ClubIcons from "./ClubIcons";
 import { Card } from "@/components/ui/card";
+import UserStatusBar from "./UserStatusBar";
 
 type Props = {};
 
@@ -11,6 +12,7 @@ const Navbar = (props: Props) => {
       <TopBar />
       {/* NAVBAR - BOTTOM ROW */}
       <ClubIcons />
+      <UserStatusBar />
     </Card>
   );
 };

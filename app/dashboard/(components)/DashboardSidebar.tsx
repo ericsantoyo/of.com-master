@@ -30,7 +30,7 @@ export default function DashboardNav() {
   const pathname = usePathname();
 
   return (
-    <div className="lg:block hidden border-r h-full">
+    <div className="md:block hidden border-r h-full">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-[55px] items-center justify-between border-b px-3 w-full">
           <Link className="flex items-center gap-2 font-semibold ml-1" href="/dashboard">

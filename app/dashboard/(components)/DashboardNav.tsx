@@ -18,9 +18,9 @@ import AuthButton from "@/components/AuthButton";
 export default function DashboardNavMobile() {
   return (
     <div className="flex flex-col">
-      <header className="flex h-14 lg:h-[55px] justify-between lg:justify-end  items-center gap-2 border-b px-3">
+      <header className="flex h-14 md:h-[55px] justify-between md:justify-end  items-center gap-2 border-b px-3">
         <Dialog>
-          <SheetTrigger className="min-[1024px]:hidden p-2 transition">
+          <SheetTrigger className="min-[768px]:hidden p-2 transition">
             <Menu size={24} />
           </SheetTrigger>
           <SheetContent side="left">
