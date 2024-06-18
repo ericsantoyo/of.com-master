@@ -1,14 +1,25 @@
-import { getAllArticlesApi } from "@/utils/actions/api/get-articles-api";
-import { clerkClient } from "@clerk/nextjs/server";
+import { getAllArticlesApi } from "@/actions/apiActions";
+import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   const authorization = headers().get("X-Auth-Key");
+  const supabase = createClient();
 
   try {
-    const result = await clerkClient.users.getUser(authorization!);
-    const response = await getAllArticlesApi(result?.id!);
+    const { data: user, error: authError } = await supabase.auth.getUser(
+      authorization!
+    );
+
+    if (authError || !user) {
+      return NextResponse.json({
+        status: 401,
+        message: "Unauthorized",
+        error: authError?.message || "User not found",
+      });
+    }
+    const response = await getAllArticlesApi(user.user.id);
 
     if (response?.error) {
       return NextResponse.json({

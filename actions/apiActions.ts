@@ -7,8 +7,6 @@ import { revalidatePath } from "next/cache";
 export const getArticleBySlugApi = async (slug: string, userId: string) => {
   const supabase = createClient();
   try {
-    // const result = await Client.users.getUser(userId!);
-
     const { data, error } = await supabase
       .from("blog")
       .select(
@@ -33,8 +31,6 @@ export const getArticleBySlugApi = async (slug: string, userId: string) => {
 export const getAllArticlesApi = async (userId: string) => {
   const supabase = createClient();
   try {
-    // const result = await clerkClient.users.getUser(userId!);
-
     const { data, error } = await supabase
       .from("blog")
       .select("*, category(*), author(*)")
@@ -56,8 +52,6 @@ export const getAllArticlesApi = async (userId: string) => {
 export const getArticlesSlugApi = async (userId: string) => {
   const supabase = createClient();
   try {
-    // const result = await clerkClient.users.getUser(userId!);
-
     const { data, error } = await supabase
       .from("blog")
       .select("slug")
