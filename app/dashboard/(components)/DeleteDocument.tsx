@@ -11,6 +11,7 @@ import {
 import { deleteDocument } from '@/actions/articlesActions'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { Trash2 } from 'lucide-react'
 
 export default function DeleteDocument({ documentId }: { documentId: string }) {
   const [open, setOpen] = useState<boolean>(false);
@@ -19,7 +20,9 @@ export default function DeleteDocument({ documentId }: { documentId: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
-        <Button>Delete</Button>
+      <Button variant={"red"} size={"icon"} className="">
+        <Trash2 className="w-4 h-4 md:w-5 md:h-5" />
+      </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

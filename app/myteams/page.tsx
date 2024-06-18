@@ -7,14 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import AuthButton from "../../components/AuthButton";
-import Delete from "./(components)/DeleteButton";
-import { redirect } from "next/navigation";
-import Link from "next/link";
-import { SupabaseClient } from "@supabase/supabase-js";
 import { Pencil, Eye } from "lucide-react";
+import Delete from "./(components)/DeleteButton";
+import AuthButton from "../../components/AuthButton";
+import { redirect } from "next/navigation";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 import React from "react";
 import { getMySquads } from "@/actions/get-my-squads";

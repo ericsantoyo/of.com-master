@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 export const getArticleBySlugApi = async (slug: string, userId: string) => {
   const supabase = createClient();
   try {
-    // const result = await clerkClient.users.getUser(userId!);
+    // const result = await Client.users.getUser(userId!);
 
     const { data, error } = await supabase
       .from("blog")
