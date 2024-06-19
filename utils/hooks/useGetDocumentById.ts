@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllDocuments } from "@/actions/articlesActions";
 import { getDocumentById } from "@/actions/articlesActions";
 
 async function fetchDocumentById(id: string) {

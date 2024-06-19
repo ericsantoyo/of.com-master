@@ -4,9 +4,9 @@ import { createClient } from "@/utils/supabase/server";
 
 // const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function getAllNews(searchParams: {
+export const getAllNews = async (searchParams: {
   [key: string]: string | string[] | undefined;
-}) {
+}) => {
   const supabase = createClient();
 
   // Fetch total pages
@@ -39,18 +39,20 @@ async function getAllNews(searchParams: {
   // await delay(3000); // 3 seconds delay
 
   // Fetch posts
-  const { data, error } = await supabase
-    .from("blog")
-    .select("*, category(*), author(*)")
-    .order("created_at", { ascending: false })
-    .range(from, to)
-    .returns<news[]>();
+  try {
+    const { data, error } = await supabase
+      .from("blog")
+      .select("*, category(*), author(*)")
+      .order("created_at", { ascending: false })
+      .range(from, to);
 
-  if (error) {
-    throw new Error(`Error fetching data: ${error.message}`);
+    if (!data || error || !data.length) {
+      throw new Error("No data found");
+    }
+
+    return { data, totalPages, page };
+  } catch (error: any) {
+    console.error('Error fetching data:', error.message);
+    return error;
   }
-
-  return { data, totalPages, page };
-}
-
-export { getAllNews };
+};

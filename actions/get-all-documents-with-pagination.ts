@@ -10,9 +10,18 @@ export const getAllDocumentsWithPagination = async (searchParams: {
   const supabase = createClient();
 
   // Fetch total pages
-  const { count } = await supabase
+  const { count, error: countError } = await supabase
     .from("documents")
     .select("*", { count: "exact", head: true });
+
+  if (countError) {
+    throw new Error(`Error fetching count: ${countError.message}`);
+  }
+
+  // Handle case with no news entries
+  if (count === 0) {
+    return { data: [], totalPages: 0, page: 1 };
+  }
 
   // Pagination
   const limit = 12;
@@ -25,6 +34,9 @@ export const getAllDocumentsWithPagination = async (searchParams: {
       : 1;
   const from = (page - 1) * limit;
   const to = from + limit - 1;
+
+    // Artificial delay for testing loading state
+  // await delay(3000); // 3 seconds delay
 
   try {
     const { data, error } = await supabase
@@ -39,6 +51,7 @@ export const getAllDocumentsWithPagination = async (searchParams: {
 
     return { data, totalPages, page };
   } catch (error: any) {
+    console.error('Error fetching data:', error.message);
     return error;
   }
 };

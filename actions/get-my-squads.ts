@@ -20,6 +20,7 @@ export const getMySquads = async () => {
 
     return data;
   } catch (error: any) {
+    console.error('Error fetching data:', error.message);
     return error;
   }
 };

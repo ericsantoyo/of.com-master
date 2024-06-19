@@ -106,18 +106,6 @@ function formatAndSortPlayerData(players, stats, matches, squad) {
   return squadWithPlayers;
 }
 
-const getUserEmail = async (supabase) => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return null;
-  }
-
-  return user.email;
-};
-
 export default async function MyTeam({
   params,
 }: {

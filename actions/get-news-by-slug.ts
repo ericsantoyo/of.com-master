@@ -20,6 +20,7 @@ export const getNewsBySlug = async (slug: string) => {
 
     return data;
   } catch (error: any) {
+    console.error('Error fetching data:', error.message);
     return error;
   }
 };

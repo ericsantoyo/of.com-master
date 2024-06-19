@@ -7,7 +7,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { changeUserRole, fetchAllUsers } from "@/actions/usersActions";
+import { changeUserRole, getAllUsers } from "@/actions/usersActions";
 
 const style = {
   position: "absolute" as "absolute",
@@ -37,7 +37,7 @@ const UserList = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const data = await fetchAllUsers();
+      const data = await getAllUsers();
       setUsers(data);
     };
 
@@ -48,7 +48,7 @@ const UserList = () => {
     if (selectedUser) {
       await changeUserRole(selectedUser.user_id, role);
       setModalOpen(false);
-      const updatedUsers = await fetchAllUsers();
+      const updatedUsers = await getAllUsers();
       setUsers(updatedUsers);
     }
   };
@@ -66,7 +66,7 @@ const UserList = () => {
       </div>
       <ul>
         {users.map((user) => (
-          <li key={user.id} className="flex justify-between items-center m-2">
+          <li key={user.user_id} className="flex justify-between items-center m-2">
             <span>{user.email}</span>
             <Button onClick={() => { setSelectedUser(user); setModalOpen(true); }}>Change Role</Button>
           </li>

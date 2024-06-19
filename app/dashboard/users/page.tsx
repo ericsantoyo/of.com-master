@@ -1,12 +1,10 @@
-import { fetchAllUserRoles, fetchAllUsers } from "@/actions/usersActions";
-import { getAllUsers } from "@/utils/supabase/functions";
+import { getAllUsers } from "@/actions/usersActions";
 import { User } from "lucide-react";
 import Link from "next/link";
 import UserList from "../(components)/UserList";
 
 export default async function Users() {
-  const response = await fetchAllUsers();
-  const response2 = await fetchAllUserRoles();
+  const response = await getAllUsers();
   
 
   return (
@@ -20,7 +18,7 @@ export default async function Users() {
         <div className="flex flex-wrap  gap-2 w-full mt-6">
           {response?.map((user) => (
             <Link
-              key={user?.id}
+              key={user.user_id}
               href={`/cms/users/${user?.user_id}`}
               prefetch={true}
               className="flex flex-col border dark:border-zinc-800 border-zinc-200 rounded-md w-[350px] hover:cursor-pointer hover:shadow-2xl hover:shadow-purple-500/50 transition-shadow duration-300"

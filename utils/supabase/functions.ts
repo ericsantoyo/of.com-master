@@ -31,21 +31,11 @@ async function getAllPlayersBasicInfo(): Promise<{ allPlayers: players[] }> {
 
   if (error) {
     console.error("Failed to fetch players:", error.message);
-    return { allPlayers: [] }; // Return an empty array on error
+    return { allPlayers: [] }; 
   }
 
   return { allPlayers: allPlayers as players[] };
 }
-
-// async function getAllNews(): Promise<{ allNews: any; error: any }> {
-//   const { data, error } = await supabase
-//     .from("news")
-//     .select("*")
-//     .eq("published", true)
-//     .order("updated_at", { ascending: false });
-//   // console.log(data);
-//   return { allNews: data, error };
-// }
 
 async function getNewsByPlayerID(playerID: number) {
   const { data: newses, error: newsError } = await supabase
@@ -307,11 +297,6 @@ async function createNewSquad(newSquad: squads): Promise<squads> {
   return squad;
 }
 
-async function getAllUsers() {
-  const { data: users, error } = await supabase.from("users").select("*");
-  return { allUsers: users, error };
-}
-
 async function getAllSquadsByEmail(email: string) {
   const { data: squads, error } = await supabase
     .from("squads")
@@ -382,15 +367,12 @@ export {
   fetchStatsForMyTeamsPlayers,
   fetchMyTeamPlayers,
   getFinishedMatches,
-  // getMySquads,
   getTopPlayersByPositionWithStats,
   deleteSquadById,
   createNewSquad,
-  getAllUsers,
   getAllSquadsByEmail,
   getSquadById,
   updateSquad,
-  // getAllNews,
   getNewsByPlayerID,
   getNewsById,
   fetchPlayersByIDs,
