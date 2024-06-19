@@ -16,18 +16,20 @@ import SignInWithGoogle from "./SignInWithGoogle";
 export function LoginForm() {
   return (
     
-    <Card className="mx-auto max-w-sm">
+    <Card className="mx-auto max-w-sm ">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Inicia sesión con tu correo electrónico y contraseña
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form action="">
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">
+                Correo electrónico <span className="text-red-500">*</span>
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -38,26 +40,28 @@ export function LoginForm() {
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">
+                  Contraseña <span className="text-red-500">*</span>
+                </Label>
                 <Link
                   href="#"
                   className="ml-auto inline-block text-sm underline"
                 >
-                  Forgot your password?
+                  Olvidé mi contraseña
                 </Link>
               </div>
               <Input id="password" name="password" type="password" required />
             </div>
             <Button type="submit" formAction={login} className="w-full">
-              Login
+              Iniciar sesión
             </Button>
             <SignInWithGoogle />
           </div>
         </form>
         <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
+          ¿No tienes una cuenta?{" "}
           <Link href="/signup" className="underline">
-            Sign up
+            Regístrate
           </Link>
         </div>
       </CardContent>

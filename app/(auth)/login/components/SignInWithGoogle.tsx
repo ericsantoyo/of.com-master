@@ -15,7 +15,7 @@ const SignInWithGoogle = (props: Props) => {
         signInWithGoogle();
       }}
     >
-      Login with Google
+      Iniciar sesión con Google
     </Button>
   );
 };

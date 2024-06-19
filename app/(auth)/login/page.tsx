@@ -4,7 +4,7 @@ type Props = {};
 
 const LoginPage = (props: Props) => {
   return (
-    <div className="flex h-svh items-center">
+    <div className="flex my-12 items-center">
       <LoginForm />
     </div>
   );
