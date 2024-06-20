@@ -158,5 +158,5 @@ export async function signout() {
     redirect("/error");
   }
 
-  redirect("/logout");
+  redirect("/");
 }

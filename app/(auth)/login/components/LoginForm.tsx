@@ -16,12 +16,12 @@ import SignInWithGoogle from "./SignInWithGoogle";
 export function LoginForm() {
   return (
     
-    <Card className="mx-auto max-w-sm ">
+    <Card className="mx-auto max-w-sm w-svw">
       <CardHeader>
-        <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-2xl text-center pb-4">Iniciar sesión</CardTitle>
+        {/* <CardDescription className="">
           Inicia sesión con tu correo electrónico y contraseña
-        </CardDescription>
+        </CardDescription> */}
       </CardHeader>
       <CardContent>
         <form action="">
@@ -38,7 +38,7 @@ export function LoginForm() {
                 required
               />
             </div>
-            <div className="grid gap-2">
+            <div className="grid gap-2 pb-4">
               <div className="flex items-center">
                 <Label htmlFor="password">
                   Contraseña <span className="text-red-500">*</span>
