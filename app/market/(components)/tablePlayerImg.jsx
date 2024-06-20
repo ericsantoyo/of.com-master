@@ -16,11 +16,9 @@ export default (props) => {
         <Image
           src={player.image}
           alt={player.nickname}
-          layout="fill"
-          objectFit="cover"
-          objectPosition="top" 
-       
-
+          fill
+          style={{ objectFit: "cover", objectPosition: "top" }}
+          sizes="auto"
         />
       </div>
       {isPlayerInjured && (

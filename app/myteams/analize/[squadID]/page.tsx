@@ -12,6 +12,7 @@ import { ChevronsDown, ChevronsUp } from "lucide-react";
 import { formatter, lastChangeStyle } from "@/utils/utils";
 import NextMatchesValueTable from "@/app/myteams/(components)/MyTeamMatchesValueTable";
 import PointHistoryTable from "@/app/myteams/(components)/MyTeamPointHistoryTable";
+import { getMySquadById } from "@/actions/get-my-squad-by-id";
 
 export const revalidate = 0;
 
@@ -106,7 +107,7 @@ function formatAndSortPlayerData(players, stats, matches, squad) {
   return squadWithPlayers;
 }
 
-export default async function MyTeam({
+export default async function AnalizeMyTeam({
   params,
 }: {
   params: { squadID: string };
@@ -120,7 +121,7 @@ export default async function MyTeam({
     return redirect("/login");
   }
   const squadID = params.squadID;
-  const mysquad = await getSquadById(squadID);
+  const mysquad = await getMySquadById(squadID);
 
   // Check if the logged-in user is the owner of the squad
   if (mysquad.email !== user.email) {

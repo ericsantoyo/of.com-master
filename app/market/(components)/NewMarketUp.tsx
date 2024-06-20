@@ -210,7 +210,7 @@ const NewMarketUp = () => {
     // iterate over all columns (visible or not) and work out
     // now many columns can fit (based on their minWidth)
     var totalColsWidth = 0;
-    var allColumns = gridRef.current?.columnApi.getColumns();
+    var allColumns = gridRef.current?.api.getColumns();
     if (allColumns && allColumns.length > 0) {
       for (var i = 0; i < allColumns.length; i++) {
         var column = allColumns[i];
@@ -223,8 +223,8 @@ const NewMarketUp = () => {
       }
     }
     // show/hide columns based on current grid width
-    gridRef.current?.columnApi.setColumnsVisible(columnsToShow, true);
-    gridRef.current?.columnApi.setColumnsVisible(columnsToHide, false);
+    gridRef.current?.api.setColumnsVisible(columnsToShow, true);
+    gridRef.current?.api.setColumnsVisible(columnsToHide, false);
     // fill out any available space to ensure there are no gaps
     gridRef.current?.api.sizeColumnsToFit();
   }, []);

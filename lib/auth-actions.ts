@@ -21,9 +21,106 @@ export async function login(formData: FormData) {
     redirect("/error");
   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
+  const user = await supabase.auth.getUser();
+  const { data: roleData, error: roleError } = await supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", user?.data.user?.id)
+    .single();
+
+  if (roleError) {
+    console.error("Error fetching user role in login function:", roleError);
+    return redirect("/error");
+  }
+
+  const role = roleData?.role;
+
+  if (role === "admin" || role === "editor") {
+    return redirect("/dashboard");
+  } else {
+    return redirect("/myteams");
+  }
 }
+
+export async function signInWithGoogle() {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      queryParams: {
+        access_type: "offline",
+        prompt: "consent",
+      },
+    },
+  });
+
+  if (error) {
+    console.error("OAuth sign-in error:", error);
+    redirect("/error");
+  }
+
+  // Redirect to the OAuth URL
+  if (data.url) {
+    redirect(data.url);
+  }
+}
+
+// export async function signInWithGoogle() {
+//   const supabase = createClient();
+//   const { data, error } = await supabase.auth.signInWithOAuth({
+//     provider: "google",
+//     options: {
+//       queryParams: {
+//         access_type: "offline",
+//         prompt: "consent",
+//       },
+//     },
+//   });
+
+//   if (error) {
+//     console.error("OAuth sign-in error:", error);
+//     return redirect("/error");
+//   }
+
+//   // Redirect to the OAuth URL if provided
+//   if (data.url) {
+//     return redirect(data.url);
+//   }
+
+//   // Wait for the OAuth process to complete and then fetch the user and their role
+//   const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+//   if (sessionError) {
+//     console.error("Error fetching session:", sessionError);
+//     return redirect("/error");
+//   }
+
+//   const user = sessionData?.session?.user;
+
+//   if (!user) {
+//     console.error("No user found after OAuth sign-in");
+//     return redirect("/error");
+//   }
+
+//   const { data: roleData, error: roleError } = await supabase
+//     .from("user_roles")
+//     .select("role")
+//     .eq("user_id", user.id)
+//     .single();
+
+//   if (roleError) {
+//     console.error("Error fetching user role:", roleError);
+//     return redirect("/error");
+//   }
+
+//   const role = roleData?.role;
+
+//   if (role === "admin" || role === "editor") {
+//     return redirect("/dashboard");
+//   } else {
+//     return redirect("/myteams");
+//   }
+// }
 
 export async function signup(formData: FormData) {
   const supabase = createClient();
@@ -62,27 +159,4 @@ export async function signout() {
   }
 
   redirect("/logout");
-}
-
-export async function signInWithGoogle() {
-  const supabase = createClient();
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      queryParams: {
-        access_type: "offline",
-        prompt: "consent",
-      },
-    },
-  });
-
-  if (error) {
-    console.error("OAuth sign-in error:", error);
-    redirect("/error");
-  }
-
-  // Redirect to the OAuth URL
-  if (data.url) {
-    redirect(data.url);
-  }
 }

@@ -2,13 +2,13 @@ import { createClient } from "@/utils/supabase/server";
 import {
   getAllPlayersBasicInfo,
   getAllTeams,
-  getSquadById,
 } from "@/utils/supabase/functions";
 import { redirect, useParams } from "next/navigation";
 import EditSquadForm from "@/app/myteams/(components)/EditSquadForm";
 import { UserCog } from "lucide-react";
+import { getMySquadById } from "@/actions/get-my-squad-by-id";
 
-export default async function CreateSquadPage({
+export default async function EditSquadPage({
   params,
 }: {
   params: { squadID: string };
@@ -23,7 +23,7 @@ export default async function CreateSquadPage({
   }
 
   const squadID = params.squadID;
-  const mysquad = await getSquadById(squadID);
+  const mysquad = await getMySquadById(squadID);
 
   const { allPlayers } = await getAllPlayersBasicInfo();
   const { allTeams } = await getAllTeams();
@@ -34,6 +34,7 @@ export default async function CreateSquadPage({
         <UserCog size={24} />
         <h1 className="text-2xl font-bold text-center">Edita tu Equipo</h1>
       </div>
+        {/* <pre>{JSON.stringify(mysquad, null, 2)}</pre> */}
       <EditSquadForm
         allPlayers={allPlayers}
         allTeams={allTeams}

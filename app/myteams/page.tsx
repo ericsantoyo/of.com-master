@@ -18,6 +18,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 
 import React from "react";
 import { getMySquads } from "@/actions/get-my-squads";
+import { getMySquadById } from "@/actions/get-my-squad-by-id";
 
 export default async function MyTeamsPage() {
   const supabase = createClient();
@@ -31,10 +32,11 @@ export default async function MyTeamsPage() {
 
   try {
     const mySquads = await getMySquads();
+    // const mySquad = await getMySquadById('d649b149-058e-46a2-8efd-31a625d5c6dd');
 
     return (
       <div className="flex flex-col justify-start items-center max-w-2xl mx-auto gap-4">
-        {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
+        {/* <pre>{JSON.stringify(mySquad, null, 2)}</pre> */}
         <Card className="transition-all flex flex-row justify-between items-center  w-full text-sm  ">
           <div className="flex flex-row justify-between items-center gap-2 w-full mx-4 my-2">
             <h1 className="text-lg font-semibold text-center whitespace-nowrap my-2 ">

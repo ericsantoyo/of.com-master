@@ -15,21 +15,12 @@ interface ProtectedDahboardPageProps {
 export default async function ProtectedDahboardPage({
   searchParams,
 }: ProtectedDahboardPageProps) {
-
-  const supabase = createClient();
-  // const { data: user } = await supabase.from("documents").select("*");
-
-  
+  // const supabase = createClient();
   // const {
   //   data: { user },
   // } = await supabase.auth.getUser();
-
   // if (!user) {
   //   return redirect("/login");
-  // }
-
-  // if (user.role !== "admin" && user.role !== "editor") {
-  //   return redirect("/");
   // }
 
   const { data, totalPages, page } = await getAllNews(searchParams);

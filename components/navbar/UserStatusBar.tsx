@@ -14,18 +14,22 @@ export default async function UserStatusBar() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data, error } = await supabase
-    .from("user_roles")
-    .select("role")
-    .eq("user_id", user?.id)
-    .single();
+  let role = null;
 
-  if (error) {
-    // Handle error as needed
-    console.error("Error fetching user role:", error);
+  if (user) {
+    const { data, error } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .single();
+
+    if (error) {
+      // Handle error as needed
+      console.error("Error fetching user role in UserBar:", error);
+    } else {
+      role = data?.role;
+    }
   }
-
-  const role = data?.role;
 
   return user ? (
     <div className="container max-w-6xl flex justify-between items-center pb-2">
