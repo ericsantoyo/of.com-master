@@ -6,6 +6,7 @@ import BottomMenu from "@/components/MobileMenu";
 import Footer from "@/components/footer/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import Provider from "./provider";
+import UserStatusBar from "@/components/navbar/UserStatusBar";
 
 // import { Analytics } from "@vercel/analytics/react";
 
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         <Provider>
           <Navbar />
+          {/* <UserStatusBar /> */}
           <main className="container max-w-6xl ">
             {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem> */}
             {/* <ThemeRegistry options={{ key: "mui" }}> */}

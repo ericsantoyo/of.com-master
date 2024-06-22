@@ -51,9 +51,11 @@ export async function signInWithGoogle() {
       queryParams: {
         access_type: "offline",
         prompt: "consent",
-      },
+      },    
     },
   });
+
+  // console.log(data, error);
 
   if (error) {
     console.error("OAuth sign-in error:", error);
@@ -162,7 +164,6 @@ export async function signout() {
   redirect("/");
 }
 
-
 //for forgot password
 export async function forgotPassword(formData: FormData) {
   const supabase = createClient();
@@ -171,7 +172,7 @@ export async function forgotPassword(formData: FormData) {
 
   const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${origin}/reset-password`,
-  })
+  });
 
   if (error) {
     console.error("Forgot password error:", error);

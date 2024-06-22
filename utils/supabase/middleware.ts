@@ -59,7 +59,10 @@ export const updateSession = async (request: NextRequest) => {
 
   // This will refresh session if expired - required for Server Components
   // https://supabase.com/docs/guides/auth/server-side/nextjs
-  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
 
   let role = null;
 
@@ -71,24 +74,11 @@ export const updateSession = async (request: NextRequest) => {
       .single();
 
     if (error) {
-      // Handle error as needed
       console.error("Error fetching user role in Middleware:", error);
     } else {
       role = data?.role;
     }
   }
 
-  // Redirect to /login if trying to access /dashboard without proper role
-  // if (request.nextUrl.pathname.startsWith("/dashboard")) {
-  //   if (userError || !user || (role !== "admin" && role !== "editor")) {
-  //     return NextResponse.redirect(new URL("/myteams", request.url));
-  //   }
-  // }
-
-  // Redirect to /dashboard if the user is an admin or editor
-  // if (request.nextUrl.pathname === "/" && (role === "admin" || role === "editor")) {
-  //   return NextResponse.redirect(new URL("/dashboard", request.url));
-  // }
-
-  return response;
+  return { response, role, user };
 };

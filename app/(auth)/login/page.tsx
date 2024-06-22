@@ -1,4 +1,4 @@
-import { LoginForm } from "./components/LoginForm";
+
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { Button } from "@/components/ui/button";
@@ -22,17 +22,6 @@ export default async function LoginPage({
 }: {
   searchParams: { message: string };
 }) {
-
-  const supabase = createClient();
-
-  //Check if user is already logged in
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (session) {
-    return redirect('/');
-  }
  
   //LOGIN SERVER FUNCTION 
   const login = async (formData: FormData) => {
@@ -51,28 +40,26 @@ export default async function LoginPage({
     if (error) {
       return redirect('/login?message=Could not authenticate user');
     }
+       
+    const user = await supabase.auth.getUser();
+    const { data: roleData, error: roleError } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user?.data.user?.id)
+      .single();
   
-    return redirect('/');
-    
-    // const user = await supabase.auth.getUser();
-    // const { data: roleData, error: roleError } = await supabase
-    //   .from("user_roles")
-    //   .select("role")
-    //   .eq("user_id", user?.data.user?.id)
-    //   .single();
+    if (roleError) {
+      console.error("Error fetching user role in login function:", roleError);
+      return redirect("/error");
+    }
   
-    // if (roleError) {
-    //   console.error("Error fetching user role in login function:", roleError);
-    //   return redirect("/error");
-    // }
+    const role = roleData?.role;
   
-    // const role = roleData?.role;
-  
-    // if (role === "admin" || role === "editor") {
-    //   return redirect("/dashboard");
-    // } else {
-    //   return redirect("/myteams");
-    // }
+    if (role === "admin" || role === "editor") {
+      return redirect("/dashboard");
+    } else {
+      return redirect("/myteams");
+    }
   }
   
   return (
