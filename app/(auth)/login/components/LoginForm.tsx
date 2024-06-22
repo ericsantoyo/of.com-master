@@ -44,7 +44,7 @@ export function LoginForm() {
                   Contraseña <span className="text-red-500">*</span>
                 </Label>
                 <Link
-                  href="#"
+                  href="/forgot-password"
                   className="ml-auto inline-block text-sm underline"
                 >
                   Olvidé mi contraseña

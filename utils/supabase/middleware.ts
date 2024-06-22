@@ -79,16 +79,16 @@ export const updateSession = async (request: NextRequest) => {
   }
 
   // Redirect to /login if trying to access /dashboard without proper role
-  if (request.nextUrl.pathname.startsWith("/dashboard")) {
-    if (userError || !user || (role !== "admin" && role !== "editor")) {
-      return NextResponse.redirect(new URL("/myteams", request.url));
-    }
-  }
+  // if (request.nextUrl.pathname.startsWith("/dashboard")) {
+  //   if (userError || !user || (role !== "admin" && role !== "editor")) {
+  //     return NextResponse.redirect(new URL("/myteams", request.url));
+  //   }
+  // }
 
   // Redirect to /dashboard if the user is an admin or editor
-  if (request.nextUrl.pathname === "/" && (role === "admin" || role === "editor")) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
+  // if (request.nextUrl.pathname === "/" && (role === "admin" || role === "editor")) {
+  //   return NextResponse.redirect(new URL("/dashboard", request.url));
+  // }
 
   return response;
 };

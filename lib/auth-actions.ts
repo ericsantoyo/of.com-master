@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
+import { headers } from "next/headers";
 
 export async function login(formData: FormData) {
   const supabase = createClient();
@@ -159,4 +160,38 @@ export async function signout() {
   }
 
   redirect("/");
+}
+
+
+//for forgot password
+export async function forgotPassword(formData: FormData) {
+  const supabase = createClient();
+  const origin = headers().get("origin");
+  const email = formData.get("email") as string;
+
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${origin}/reset-password`,
+  })
+
+  if (error) {
+    console.error("Forgot password error:", error);
+    redirect(`/error?message=${encodeURIComponent(error.message)}`);
+  }
+
+  redirect("/login");
+}
+
+//update user password
+export async function updatePassword(formData: FormData) {
+  const supabase = createClient();
+  const { error } = await supabase.auth.updateUser({
+    password: formData.get("password") as string,
+  });
+
+  if (error) {
+    console.error("Update password error:", error);
+    redirect(`/error?message=${encodeURIComponent(error.message)}`);
+  }
+
+  redirect("/login");
 }
