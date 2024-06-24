@@ -30,7 +30,7 @@ const confirmReset = async (formData: FormData) => {
   }
 
   return redirect(
-    "/confirm?message=Password Reset link has been sent to your email address"
+    "/forgot-password?message=Password Reset link has been sent to your email address"
   );
 };
 

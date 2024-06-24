@@ -9,6 +9,150 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      author: {
+        Row: {
+          author_id: string | null
+          author_instagram: string | null
+          author_name: string
+          author_profile_img: string | null
+          author_twitter: string | null
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          author_id?: string | null
+          author_instagram?: string | null
+          author_name: string
+          author_profile_img?: string | null
+          author_twitter?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          author_id?: string | null
+          author_instagram?: string | null
+          author_name?: string
+          author_profile_img?: string | null
+          author_twitter?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      blog: {
+        Row: {
+          author_id: string | null
+          blog_html: string | null
+          category_id: number | null
+          created_at: string | null
+          id: number
+          image: string | null
+          image_alt: string | null
+          keywords: string[] | null
+          published: boolean
+          shareable: boolean
+          slug: string
+          subtitle: string | null
+          title: string
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          author_id?: string | null
+          blog_html?: string | null
+          category_id?: number | null
+          created_at?: string | null
+          id?: never
+          image?: string | null
+          image_alt?: string | null
+          keywords?: string[] | null
+          published?: boolean
+          shareable?: boolean
+          slug: string
+          subtitle?: string | null
+          title: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          author_id?: string | null
+          blog_html?: string | null
+          category_id?: number | null
+          created_at?: string | null
+          id?: never
+          image?: string | null
+          image_alt?: string | null
+          keywords?: string[] | null
+          published?: boolean
+          shareable?: boolean
+          slug?: string
+          subtitle?: string | null
+          title?: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "author"
+            referencedColumns: ["author_id"]
+          },
+          {
+            foreignKeyName: "blog_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "category"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      category: {
+        Row: {
+          category: string
+          id: number
+          user_id: string | null
+        }
+        Insert: {
+          category: string
+          id?: never
+          user_id?: string | null
+        }
+        Update: {
+          category?: string
+          id?: never
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      documents: {
+        Row: {
+          created_at: string | null
+          document: string | null
+          document_id: string | null
+          id: number
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          document?: string | null
+          document_id?: string | null
+          id?: number
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          document?: string | null
+          document_id?: string | null
+          id?: number
+          title?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       matches: {
         Row: {
           localScore: number | null
@@ -42,29 +186,9 @@ export type Database = {
         }
         Relationships: []
       }
-      myteams: {
-        Row: {
-          created_at: string
-          myTeamID: number
-          name: string | null
-          players: number[] | null
-        }
-        Insert: {
-          created_at?: string
-          myTeamID?: number
-          name?: string | null
-          players?: number[] | null
-        }
-        Update: {
-          created_at?: string
-          myTeamID?: number
-          name?: string | null
-          players?: number[] | null
-        }
-        Relationships: []
-      }
       news: {
         Row: {
+          category_id: string | null
           content: string | null
           cover_photo_url: string | null
           created_at: string
@@ -76,6 +200,7 @@ export type Database = {
           updated_at: number | null
         }
         Insert: {
+          category_id?: string | null
           content?: string | null
           cover_photo_url?: string | null
           created_at?: string
@@ -87,6 +212,7 @@ export type Database = {
           updated_at?: number | null
         }
         Update: {
+          category_id?: string | null
           content?: string | null
           cover_photo_url?: string | null
           created_at?: string
@@ -157,38 +283,47 @@ export type Database = {
         Row: {
           email: string
           role: string | null
+          user_id: string | null
         }
         Insert: {
           email: string
           role?: string | null
+          user_id?: string | null
         }
         Update: {
           email?: string
           role?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
       squads: {
         Row: {
+          created_at: string | null
           email: string | null
           lineup: Json | null
           playersIDS: Json | null
           squadID: string
           squadName: string | null
+          user_id: string | null
         }
         Insert: {
+          created_at?: string | null
           email?: string | null
           lineup?: Json | null
           playersIDS?: Json | null
           squadID?: string
           squadName?: string | null
+          user_id?: string | null
         }
         Update: {
+          created_at?: string | null
           email?: string | null
           lineup?: Json | null
           playersIDS?: Json | null
           squadID?: string
           squadName?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -283,7 +418,15 @@ export type Database = {
           won_match?: Json | null
           yellow_card?: Json | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "stats_playerID_fkey"
+            columns: ["playerID"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["playerID"]
+          },
+        ]
       }
       teams: {
         Row: {
@@ -309,18 +452,56 @@ export type Database = {
         }
         Relationships: []
       }
-      users: {
+      user_roles: {
         Row: {
-          email: string | null
-          id: string
+          email: string
+          id: number
+          role: string
+          user_id: string
         }
         Insert: {
-          email?: string | null
-          id?: string
+          email: string
+          id?: number
+          role?: string
+          user_id: string
         }
         Update: {
-          email?: string | null
-          id?: string
+          email?: string
+          id?: number
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          created_at: string | null
+          email: string
+          first_name: string | null
+          last_name: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          first_name?: string | null
+          last_name?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          first_name?: string | null
+          last_name?: string | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -329,7 +510,24 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: {
+        Args: {
+          uid: string
+        }
+        Returns: boolean
+      }
+      is_editor: {
+        Args: {
+          uid: string
+        }
+        Returns: boolean
+      }
+      is_visitor: {
+        Args: {
+          uid: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

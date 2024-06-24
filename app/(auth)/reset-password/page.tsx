@@ -54,6 +54,8 @@ export default async function ResetPasswordPage({
     );
   };
 
+
+
   return (
     <div className="flex my-12 items-center">
       <Card className="mx-auto max-w-sm w-svw">
@@ -111,6 +113,7 @@ export default async function ResetPasswordPage({
               </div>
               <Button
                 type="submit"
+
                 formAction={resetPassword}
                 className="w-full"
               >
@@ -121,6 +124,7 @@ export default async function ResetPasswordPage({
                   {searchParams.message}
                 </p>
               )}
+
               
             </div>
           </form>

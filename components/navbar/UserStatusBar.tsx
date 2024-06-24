@@ -33,7 +33,7 @@ export default async function UserStatusBar() {
 
   return user ? (
     <div className="container max-w-6xl flex justify-between items-center pb-2">
-      {/* <pre>{JSON.stringify(role, null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(user.app_metadata.provider, null, 2)}</pre> */}
       <Link
         href="/dashboard"
         className="py-2 px-3 flex justify-center items-center  whitespace-nowrap rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
@@ -54,7 +54,18 @@ export default async function UserStatusBar() {
       </Link>
       <div className="flex flex-col justify-center items-center">
         <p className="text-center font-semibold text-sm">{user.email}</p>
-        <span className="text-muted-foreground text-xs">({role})</span>
+        <span className="flex gap-2 text-muted-foreground text-xs">
+          <span className="flex gap-1">
+            <p className="text-center ">Role:</p>
+            <p className="text-center font-semibold capitalize">{role}</p>
+          </span>
+          <span className="flex gap-1">
+            <p className="text-center">Provider:</p>
+            <p className="text-center font-semibold capitalize">
+              {user.app_metadata.provider === "google" ? "Google" : "Email"}
+            </p>
+          </span>
+        </span>
       </div>
       <form action={signout}>
         <Button
